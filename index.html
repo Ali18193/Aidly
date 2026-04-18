@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aidly — Psixoloji Dəstək</title>
+<meta name="theme-color" content="#07192E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Aidly">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%2307192E'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle'%3E%F0%9F%A7%A0%3C/text%3E%3C/svg%3E">
+<script id="pwa-manifest-gen">
+(function(){
+  const icon = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#07192E"/><text x="96" y="130" font-size="100" text-anchor="middle">🧠</text></svg>');
+  const manifest = {
+    name: 'Aidly — Psixoloji Dəstək',
+    short_name: 'Aidly',
+    description: 'Azərbaycanda psixoloji dəstək platforması',
+    start_url: '.',
+    display: 'standalone',
+    orientation: 'portrait',
+    background_color: '#07192E',
+    theme_color: '#07192E',
+    icons: [
+      { src: icon, sizes: '192x192', type: 'image/svg+xml' },
+      { src: icon, sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest'; link.href = url;
+  document.head.appendChild(link);
+})();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════════ */
+:root {
+  --navy:    #07192E;
+  --navy2:   #0D2540;
+  --blue:    #1A6FD4;
+  --blue2:   #2183F0;
+  --orange:  #F07B1D;
+  --orange2: #FF9240;
+  --teal:    #0A8F82;
+  --white:   #FFFFFF;
+  --off:     #F4F7FB;
+  --off2:    #EBF0F8;
+  --muted:   #7E95B0;
+  --text:    #152035;
+  --border:  #DDE5F0;
+  --card:    #FFFFFF;
+  --shadow:  0 4px 24px rgba(7,25,46,0.08);
+  --shadow2: 0 12px 40px rgba(7,25,46,0.14);
+  --r:       16px;
+  --r2:      24px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  font-family:'Sora', sans-serif;
+  background:var(--off);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img { display:block; max-width:100%; }
+button { cursor:pointer; font-family:'Sora',sans-serif; }
+a { text-decoration:none; }
+
+/* ═══════════════════════════════════════════
+   LANGUAGE SYSTEM
+═══════════════════════════════════════════ */
+.t { display:none; }
+body.az .t-az, body.en .t-en { display:inline; }
+body.az .tb-az, body.en .tb-en { display:block; }
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════ */
+.navbar {
+  position:fixed; top:0; left:0; right:0; z-index:900;
+  height:64px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px;
+  background:rgba(7,25,46,0.92);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  transition:all 0.3s;
+}
+.nb-logo {
+  font-size:20px; font-weight:800; color:#fff;
+  letter-spacing:-0.5px;
+}
+.nb-logo em { color:var(--orange); font-style:normal; }
+
+.nb-center {
+  display:flex; gap:28px;
+}
+.nb-center a {
+  font-size:13px; font-weight:500;
+  color:rgba(255,255,255,0.55);
+  transition:color 0.2s;
+}
+.nb-center a:hover { color:#fff; }
+
+.nb-right { display:flex; align-items:center; gap:12px; }
+
+.lang-pill {
+  display:flex; background:rgba(255,255,255,0.07);
+  border-radius:100px; padding:3px; gap:2px;
+}
+.lang-pill button {
+  padding:4px 12px; border-radius:100px; border:none;
+  background:transparent; color:rgba(255,255,255,0.45);
+  font-size:12px; font-weight:700; transition:all 0.2s;
+}
+.lang-pill button.on { background:var(--orange); color:#fff; }
+
+.nb-cta {
+  background:var(--orange); color:#fff;
+  border:none; padding:8px 18px;
+  border-radius:100px; font-size:13px; font-weight:700;
+  transition:all 0.2s;
+}
+.nb-cta:hover { background:var(--orange2); transform:translateY(-1px); }
+
+/* hamburger */
+.ham {
+  display:none; flex-direction:column; gap:5px;
+  background:none; border:none; padding:4px;
+}
+.ham span {
+  width:22px; height:2px;
+  background:rgba(255,255,255,0.7);
+  border-radius:2px; display:block; transition:all 0.3s;
+}
+
+/* mobile menu */
+.mob-menu {
+  display:none; position:fixed; top:64px; left:0; right:0;
+  background:var(--navy); z-index:800; padding:20px 24px;
+  flex-direction:column; gap:4px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.mob-menu.open { display:flex; }
+.mob-menu a {
+  color:rgba(255,255,255,0.7); font-size:15px;
+  font-weight:500; padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  min-height:100svh;
+  background:var(--navy);
+  display:flex; align-items:center;
+  padding:100px 24px 60px;
+  position:relative; overflow:hidden;
+}
+
+/* mesh background */
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 20%, rgba(26,111,212,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(10,143,130,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 90% 85%, rgba(240,123,29,0.1) 0%, transparent 50%);
+  pointer-events:none;
+}
+
+/* grid lines subtle */
+.hero::after {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+
+.hero-inner {
+  max-width:1180px; margin:0 auto; width:100%;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:60px; align-items:center; position:relative; z-index:1;
+}
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(240,123,29,0.12);
+  border:1px solid rgba(240,123,29,0.25);
+  border-radius:100px; padding:6px 14px;
+  font-size:11px; font-weight:700;
+  color:var(--orange2); letter-spacing:1px;
+  text-transform:uppercase; margin-bottom:20px;
+}
+.hero-badge span { font-size:14px; }
+
+.hero-h1 {
+  font-family:'Fraunces', serif;
+  font-size:clamp(38px,5.5vw,72px);
+  font-weight:700; color:#fff;
+  line-height:1.08; margin-bottom:20px;
+  letter-spacing:-1px;
+}
+.hero-h1 .hl {
+  color:var(--orange);
+  font-style:italic;
+}
+
+.hero-p {
+  font-size:clamp(14px,1.5vw,17px);
+  color:rgba(255,255,255,0.55);
+  line-height:1.75; margin-bottom:36px;
+  max-width:480px;
+}
+
+.hero-btns { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:48px; }
+
+.btn-fill {
+  background:var(--orange); color:#fff;
+  border:none; padding:14px 26px;
+  border-radius:100px; font-size:14px; font-weight:700;
+  transition:all 0.25s; display:inline-flex; align-items:center; gap:6px;
+}
+.btn-fill:hover { background:var(--orange2); transform:translateY(-2px); box-shadow:0 8px 24px rgba(240,123,29,0.35); }
+
+.btn-ghost {
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.8);
+  padding:14px 26px; border-radius:100px;
+  font-size:14px; font-weight:600; transition:all 0.25s;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.btn-ghost:hover { background:rgba(255,255,255,0.13); border-color:rgba(255,255,255,0.35); }
+
+.hero-pills {
+  display:flex; gap:10px; flex-wrap:wrap;
+}
+.pill {
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:100px; padding:8px 16px;
+  font-size:12px; font-weight:600;
+  color:rgba(255,255,255,0.65);
+  display:flex; align-items:center; gap:6px;
+}
+.pill-dot { width:6px; height:6px; border-radius:50%; background:var(--teal); }
+
+/* ═══════════════════════════════════════════
+   PHONE SHOWCASE
+═══════════════════════════════════════════ */
+.showcase {
+  display:flex; justify-content:center; align-items:center;
+  position:relative;
+}
+
+/* glow behind phone */
+.showcase::before {
+  content:'';
+  position:absolute;
+  width:300px; height:300px;
+  background:radial-gradient(circle, rgba(26,111,212,0.3) 0%, transparent 70%);
+  border-radius:50%; z-index:0;
+}
+
+.phone-shell {
+  width:272px; height:556px;
+  background:#050E1A;
+  border-radius:44px;
+  border:2px solid rgba(255,255,255,0.12);
+  overflow:hidden;
+  position:relative; z-index:1;
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,0.03),
+    0 40px 80px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  animation:levitate 5s ease-in-out infinite;
+}
+@keyframes levitate {
+  0%,100%{ transform:translateY(0) rotate(-1deg); }
+  50%{ transform:translateY(-14px) rotate(1deg); }
+}
+
+.phone-island {
+  position:absolute; top:10px; left:50%;
+  transform:translateX(-50%);
+  width:90px; height:26px;
+  background:#050E1A;
+  border-radius:20px; z-index:10;
+  border:1.5px solid rgba(255,255,255,0.06);
+}
+
+/* ── APP SCREENS ── */
+.scr {
+  position:absolute; inset:0;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.4s ease;
+  display:flex; flex-direction:column;
+}
+.scr.on { opacity:1; pointer-events:all; }
+
+/* ── SCREEN: HOME ── */
+.scr-home {
+  background:linear-gradient(170deg,#081424 0%,#0D2540 100%);
+  padding:44px 18px 72px;
+  overflow-y:auto;
+}
+.scr-home::-webkit-scrollbar { display:none; }
+
+.sh-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+.sh-logo { font-size:17px; font-weight:800; color:#fff; }
+.sh-logo em { color:var(--orange); font-style:normal; }
+.sh-av {
+  width:34px; height:34px; border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; color:#fff; font-weight:700;
+  cursor:pointer; border:2px solid rgba(255,255,255,0.15);
+  flex-shrink:0;
+}
+
+.sh-greet { font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:2px; }
+.sh-name { font-size:19px; font-weight:700; color:#fff; margin-bottom:18px; }
+
+.mood-card {
+  background:linear-gradient(135deg,#1A5FBE,#0D4A9A);
+  border-radius:18px; padding:16px; margin-bottom:14px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.mc-label { font-size:10px; color:rgba(255,255,255,0.6); font-weight:700; letter-spacing:.5px; text-transform:uppercase; margin-bottom:10px; }
+.mc-emojis { display:flex; gap:8px; }
+.mc-e {
+  flex:1; background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:10px; padding:9px 4px;
+  text-align:center; font-size:19px; cursor:pointer;
+  transition:all 0.2s; -webkit-tap-highlight-color:transparent;
+}
+.mc-e:hover,.mc-e.on { background:rgba(255,255,255,0.25); transform:scale(1.08); }
+
+.qa-grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:14px; }
+.qa-c {
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px; padding:14px 10px;
+  cursor:pointer; transition:all 0.2s; -webkit-tap-highlight-color:transparent;
+}
+.qa-c:hover { background:rgba(255,255,255,0.1); transform:translateY(-2px); }
+.qa-ic { font-size:22px; margin-bottom:5px; }
+.qa-lb { font-size:10px; color:rgba(255,255,255,0.75); font-weight:600; }
+
+.up-card {
+  background:rgba(10,143,130,0.15);
+  border:1px solid rgba(10,143,130,0.25);
+  border-radius:14px; padding:13px;
+  display:flex; align-items:center; gap:10px;
+}
+.up-ic { font-size:22px; }
+.up-t { font-size:11px; font-weight:700; color:#fff; }
+.up-s { font-size:9px; color:rgba(255,255,255,0.45); margin-top:2px; }
+
+/* ── SCREEN: TEST ── */
+.scr-test {
+  background:var(--off);
+  padding:44px 18px 72px;
+  overflow-y:auto;
+}
+.scr-test::-webkit-scrollbar { display:none; }
+
+.st-back { font-size:20px; cursor:pointer; color:var(--text); margin-bottom:14px; display:inline-block; }
+.st-title { font-size:15px; font-weight:800; color:var(--text); }
+.st-sub { font-size:10px; color:var(--muted); margin-top:2px; margin-bottom:14px; }
+
+.prog-wrap { background:var(--border); border-radius:100px; height:5px; margin-bottom:22px; overflow:hidden; }
+.prog-fill { height:100%; border-radius:100px; background:linear-gradient(90deg,var(--blue),var(--blue2)); width:60%; transition:width 0.4s; }
+
+.st-q { font-size:13px; font-weight:700; color:var(--text); line-height:1.55; margin-bottom:16px; }
+
+.st-opts { display:flex; flex-direction:column; gap:8px; }
+.st-o {
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:12px; padding:12px 14px;
+  font-size:12px; font-weight:500; color:var(--text);
+  cursor:pointer; transition:all 0.2s; -webkit-tap-highlight-color:transparent;
+  text-align:left;
+}
+.st-o:hover { border-color:var(--blue); color:var(--blue); }
+.st-o.on { border-color:var(--blue); background:rgba(26,111,212,0.06); color:var(--blue); font-weight:700; }
+
+.st-next {
+  margin-top:18px; width:100%;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff; border:none;
+  padding:14px; border-radius:14px;
+  font-size:13px; font-weight:700;
+  transition:all 0.2s; box-shadow:0 4px 16px rgba(26,111,212,0.3);
+}
+.st-next:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(26,111,212,0.35); }
+
+/* ── SCREEN: PSYCHOLOGISTS ── */
+.scr-psy {
+  background:var(--off);
+  padding:44px 18px 72px;
+  overflow-y:auto;
+}
+.scr-psy::-webkit-scrollbar { display:none; }
+
+.sp-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.sp-title { font-size:15px; font-weight:800; color:var(--text); }
+.sp-filt { font-size:11px; color:var(--blue); font-weight:700; cursor:pointer; }
+
+.sp-search {
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:12px; padding:10px 14px;
+  font-size:12px; color:var(--muted);
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:14px;
+}
+
+.psy-c {
+  background:#fff; border-radius:16px;
+  padding:14px; margin-bottom:10px;
+  display:flex; gap:11px; align-items:flex-start;
+  box-shadow:0 2px 12px rgba(7,25,46,0.06);
+  cursor:pointer; transition:all 0.2s; -webkit-tap-highlight-color:transparent;
+}
+.psy-c:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(7,25,46,0.1); }
+.psy-av {
+  width:44px; height:44px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0;
+}
+.psy-name { font-size:12px; font-weight:700; color:var(--text); }
+.psy-spec { font-size:10px; color:var(--muted); margin-top:1px; }
+.psy-meta { display:flex; gap:8px; margin-top:6px; align-items:center; }
+.psy-star { font-size:11px; color:var(--orange); font-weight:700; }
+.psy-price { font-size:10px; color:var(--muted); }
+.psy-btn {
+  margin-left:auto; align-self:center; flex-shrink:0;
+  background:var(--blue); color:#fff; border:none;
+  border-radius:10px; padding:7px 13px;
+  font-size:10px; font-weight:700;
+  transition:all 0.2s;
+}
+.psy-btn:hover { background:var(--blue2); }
+
+/* ── SCREEN: PROFILE ── */
+.scr-prof {
+  background:var(--off);
+  padding:44px 18px 72px;
+  overflow-y:auto;
+}
+.scr-prof::-webkit-scrollbar { display:none; }
+
+.prof-header {
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  border-radius:18px; padding:20px 16px;
+  text-align:center; margin-bottom:16px;
+  position:relative; overflow:hidden;
+}
+.prof-header::before {
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse at 50% 0%, rgba(26,111,212,0.3) 0%, transparent 70%);
+}
+.prof-av-big {
+  width:64px; height:64px; border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; color:#fff; font-weight:700;
+  margin:0 auto 10px; position:relative; z-index:1;
+  border:3px solid rgba(255,255,255,0.2);
+}
+.prof-name-big { font-size:16px; font-weight:700; color:#fff; position:relative; z-index:1; }
+.prof-email { font-size:11px; color:rgba(255,255,255,0.45); margin-top:3px; position:relative; z-index:1; }
+
+.prof-badge-row { display:flex; gap:8px; justify-content:center; margin-top:14px; position:relative; z-index:1; }
+.prof-badge {
+  background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15);
+  border-radius:100px; padding:5px 12px;
+  font-size:10px; color:rgba(255,255,255,0.75); font-weight:600;
+  display:flex; align-items:center; gap:5px;
+}
+
+.prof-section-title { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; margin-top:16px; }
+
+.prof-row {
+  background:#fff; border-radius:14px;
+  overflow:hidden; margin-bottom:8px;
+  box-shadow:0 2px 8px rgba(7,25,46,0.05);
+}
+.prof-item {
+  display:flex; align-items:center; gap:12px;
+  padding:13px 16px;
+  border-bottom:1px solid var(--off);
+  cursor:pointer; transition:background 0.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.prof-item:last-child { border-bottom:none; }
+.prof-item:hover { background:var(--off); }
+.prof-item-ic { font-size:18px; width:32px; text-align:center; flex-shrink:0; }
+.prof-item-txt { flex:1; }
+.prof-item-name { font-size:13px; font-weight:600; color:var(--text); }
+.prof-item-sub { font-size:10px; color:var(--muted); margin-top:1px; }
+.prof-item-arr { color:var(--muted); font-size:14px; }
+.prof-item-badge {
+  background:var(--blue); color:#fff;
+  border-radius:100px; font-size:9px; font-weight:700;
+  padding:2px 8px;
+}
+
+.prof-logout {
+  width:100%; background:rgba(239,68,68,0.08);
+  border:1.5px solid rgba(239,68,68,0.2);
+  color:#EF4444; border-radius:14px;
+  padding:13px; font-size:13px; font-weight:700;
+  margin-top:12px; transition:all 0.2s;
+}
+.prof-logout:hover { background:rgba(239,68,68,0.15); }
+
+/* ── BOTTOM NAV ── */
+.app-bnav {
+  position:absolute; bottom:0; left:0; right:0; z-index:5;
+  display:flex; padding:8px 0 14px;
+  border-top:1px solid;
+}
+.scr-home .app-bnav { background:rgba(8,20,36,0.95); border-color:rgba(255,255,255,0.07); backdrop-filter:blur(10px); }
+.scr-test .app-bnav,.scr-psy .app-bnav,.scr-prof .app-bnav {
+  background:rgba(244,247,251,0.96); border-color:rgba(0,0,0,0.07); backdrop-filter:blur(10px);
+}
+
+.bnav-i {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; gap:3px; cursor:pointer;
+  transition:all 0.2s; padding:4px 0;
+  -webkit-tap-highlight-color:transparent;
+}
+.bnav-ic { font-size:18px; }
+.bnav-lb { font-size:8.5px; font-weight:700; letter-spacing:.3px; }
+
+.scr-home .bnav-lb { color:rgba(255,255,255,0.3); }
+.scr-home .bnav-i.on .bnav-lb { color:var(--orange); }
+.scr-test .bnav-lb,.scr-psy .bnav-lb,.scr-prof .bnav-lb { color:rgba(7,25,46,0.3); }
+.scr-test .bnav-i.on .bnav-lb,.scr-psy .bnav-i.on .bnav-lb,.scr-prof .bnav-i.on .bnav-lb { color:var(--blue); }
+
+.bnav-dot { width:4px; height:4px; border-radius:50%; display:none; }
+.scr-home .bnav-i.on .bnav-dot { display:block; background:var(--orange); }
+.scr-test .bnav-i.on .bnav-dot,.scr-psy .bnav-i.on .bnav-dot,.scr-prof .bnav-i.on .bnav-dot { display:block; background:var(--blue); }
+
+/* ═══════════════════════════════════════════
+   SECTIONS — SHARED
+═══════════════════════════════════════════ */
+.sec { padding:96px 24px; }
+.sec-in { max-width:1180px; margin:0 auto; }
+
+.sec-kicker {
+  font-size:11px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--blue);
+  margin-bottom:14px; display:block;
+}
+.sec-h2 {
+  font-family:'Fraunces', serif;
+  font-size:clamp(28px,4vw,48px);
+  font-weight:700; color:var(--navy);
+  line-height:1.12; margin-bottom:16px; letter-spacing:-.5px;
+}
+.sec-p {
+  font-size:16px; color:var(--muted);
+  line-height:1.75; max-width:520px; margin-bottom:60px;
+}
+
+/* ═══════════════════════════════════════════
+   PROBLEM SECTION
+═══════════════════════════════════════════ */
+.sec-prob { background:#fff; }
+
+.prob-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.prob-c {
+  background:var(--off);
+  border:1px solid var(--border);
+  border-radius:var(--r2);
+  padding:32px 28px;
+  position:relative; overflow:hidden;
+  transition:all 0.3s;
+}
+.prob-c::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--orange),var(--orange2));
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.4s;
+}
+.prob-c:hover { transform:translateY(-5px); box-shadow:var(--shadow2); border-color:transparent; }
+.prob-c:hover::after { transform:scaleX(1); }
+
+.prob-num {
+  font-family:'Fraunces',serif;
+  font-size:48px; font-weight:700;
+  color:var(--border); margin-bottom:16px;
+  line-height:1;
+}
+.prob-ic { font-size:36px; margin-bottom:14px; }
+.prob-t { font-size:17px; font-weight:700; color:var(--navy); margin-bottom:10px; }
+.prob-b { font-size:14px; color:var(--muted); line-height:1.7; }
+
+/* ═══════════════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════════════ */
+.sec-how { background:var(--navy); position:relative; overflow:hidden; }
+.sec-how::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 80% at 90% 50%, rgba(26,111,212,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 5% 20%, rgba(10,143,130,0.1) 0%, transparent 50%);
+  pointer-events:none;
+}
+.sec-how .sec-h2 { color:#fff; }
+.sec-how .sec-p { color:var(--muted); }
+.sec-how .sec-kicker { color:var(--orange); }
+
+.steps-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+
+.step-c {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--r2); padding:28px 22px;
+  transition:all 0.3s; position:relative;
+}
+.step-c:hover { background:rgba(255,255,255,0.08); transform:translateY(-4px); }
+
+.step-n {
+  width:46px; height:46px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:800; color:#fff;
+  margin-bottom:18px;
+}
+.step-n.a { background:var(--blue); }
+.step-n.b { background:rgba(26,111,212,0.45); }
+.step-n.c { background:rgba(26,111,212,0.25); }
+.step-n.d { background:var(--orange); }
+
+.step-t { font-size:16px; font-weight:700; color:#fff; margin-bottom:8px; }
+.step-b { font-size:13px; color:rgba(255,255,255,0.45); line-height:1.65; }
+
+/* connector dots between steps */
+.step-c::after {
+  content:'›';
+  position:absolute; right:-13px; top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,0.15); font-size:22px;
+}
+.step-c:last-child::after { display:none; }
+
+/* ═══════════════════════════════════════════
+   FEATURES
+═══════════════════════════════════════════ */
+.sec-feat { background:var(--off); }
+
+.feat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+
+.feat-c {
+  background:#fff; border-radius:var(--r2);
+  padding:32px; border:1px solid var(--border);
+  display:flex; gap:20px; align-items:flex-start;
+  transition:all 0.3s;
+}
+.feat-c:hover { box-shadow:var(--shadow2); transform:translateY(-3px); border-color:transparent; }
+.feat-c.dark { background:var(--navy); border-color:var(--navy); }
+
+.feat-ic-wrap {
+  width:52px; height:52px; border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; flex-shrink:0;
+}
+.fi-blue  { background:rgba(26,111,212,0.1); }
+.fi-org   { background:rgba(240,123,29,0.1); }
+.fi-teal  { background:rgba(10,143,130,0.1); }
+.fi-w     { background:rgba(255,255,255,0.1); }
+
+.feat-t { font-size:17px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+.feat-b { font-size:14px; color:var(--muted); line-height:1.65; }
+.feat-c.dark .feat-t { color:#fff; }
+.feat-c.dark .feat-b { color:rgba(255,255,255,0.4); }
+
+/* ═══════════════════════════════════════════
+   STATS BAND
+═══════════════════════════════════════════ */
+.stats-band {
+  background:linear-gradient(135deg,var(--blue) 0%,#0D56B0 100%);
+  padding:72px 24px;
+}
+.stats-inner {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:24px; text-align:center;
+}
+.stat-v {
+  font-family:'Fraunces',serif;
+  font-size:clamp(32px,4vw,52px);
+  font-weight:700; color:#fff; margin-bottom:8px;
+  line-height:1;
+}
+.stat-v sub { font-size:.55em; color:rgba(255,255,255,0.5); vertical-align:baseline; }
+.stat-l { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5; }
+
+/* ═══════════════════════════════════════════
+   APP DEMO SECTION
+═══════════════════════════════════════════ */
+.sec-demo { background:#fff; }
+
+.demo-layout {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:80px; align-items:center;
+}
+
+.demo-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px; }
+.demo-tab {
+  padding:8px 18px; border-radius:100px;
+  border:1.5px solid var(--border);
+  font-size:12px; font-weight:700;
+  color:var(--muted); background:transparent;
+  transition:all 0.2s;
+}
+.demo-tab.on { background:var(--navy); color:#fff; border-color:var(--navy); }
+
+.demo-txt-h { font-size:20px; font-weight:800; color:var(--navy); margin-bottom:10px; }
+.demo-txt-p { font-size:14px; color:var(--muted); line-height:1.7; margin-bottom:22px; }
+
+.demo-chk { display:flex; flex-direction:column; gap:10px; }
+.demo-chk-i { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text); }
+.chk-ic {
+  width:22px; height:22px; border-radius:6px;
+  background:rgba(10,143,130,0.1);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--teal); font-size:13px; flex-shrink:0;
+}
+
+.demo-phone-wrap { display:flex; justify-content:center; }
+.demo-phone {
+  width:260px; height:532px;
+  background:#050E1A; border-radius:40px;
+  border:2px solid rgba(255,255,255,0.1);
+  overflow:hidden; position:relative;
+  box-shadow:var(--shadow2);
+}
+
+/* ═══════════════════════════════════════════
+   CTA SECTION
+═══════════════════════════════════════════ */
+.sec-cta {
+  background:var(--navy);
+  padding:96px 24px;
+  text-align:center;
+  position:relative; overflow:hidden;
+}
+.sec-cta::before {
+  content:'';
+  position:absolute;
+  width:700px; height:700px;
+  background:radial-gradient(circle, rgba(240,123,29,0.12) 0%, transparent 65%);
+  top:50%; left:50%; transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+
+.cta-h {
+  font-family:'Fraunces',serif;
+  font-size:clamp(32px,5vw,62px);
+  font-weight:700; color:#fff;
+  margin-bottom:18px; line-height:1.08;
+  letter-spacing:-.5px; position:relative;
+}
+.cta-p { font-size:17px; color:var(--muted); margin-bottom:40px; position:relative; }
+.cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; position:relative; }
+
+.btn-store {
+  background:rgba(255,255,255,0.07);
+  border:1.5px solid rgba(255,255,255,0.14);
+  color:#fff; padding:13px 22px; border-radius:14px;
+  font-size:13px; font-weight:600;
+  display:inline-flex; align-items:center; gap:8px;
+  transition:all 0.2s;
+}
+.btn-store:hover { background:rgba(255,255,255,0.13); transform:translateY(-2px); }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background:#040D18;
+  padding:32px 24px;
+  display:flex; align-items:center;
+  justify-content:space-between; flex-wrap:wrap; gap:12px;
+}
+.ft-logo { font-size:18px; font-weight:800; color:#fff; }
+.ft-logo em { color:var(--orange); font-style:normal; }
+.ft-c { font-size:12px; color:rgba(255,255,255,0.2); }
+
+/* ═══════════════════════════════════════════
+   MODAL (profile detail)
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position:fixed; inset:0; z-index:9999;
+  background:rgba(7,25,46,0.7); backdrop-filter:blur(6px);
+  display:none; align-items:flex-end; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal-box {
+  background:#fff; width:100%; max-width:480px;
+  border-radius:28px 28px 0 0;
+  padding:28px 24px 48px;
+  animation:slideUp 0.3s ease;
+}
+@keyframes slideUp { from{ transform:translateY(60px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+.modal-handle { width:40px; height:4px; background:var(--border); border-radius:100px; margin:0 auto 24px; }
+.modal-title { font-size:18px; font-weight:800; color:var(--navy); margin-bottom:20px; }
+.modal-close {
+  position:absolute; top:20px; right:20px;
+  background:var(--off); border:none;
+  width:32px; height:32px; border-radius:50%;
+  font-size:16px; color:var(--muted);
+}
+.modal-box { position:relative; }
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS & SCROLL REVEAL
+═══════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.fu { opacity:0; }
+.fu.vis { animation:fadeUp 0.65s ease forwards; }
+.fu-1.vis { animation-delay:.05s; }
+.fu-2.vis { animation-delay:.15s; }
+.fu-3.vis { animation-delay:.25s; }
+.fu-4.vis { animation-delay:.35s; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — MOBILE FIRST
+═══════════════════════════════════════════ */
+@media(max-width:900px){
+  .nb-center { display:none; }
+  .nb-cta { display:none; }
+  .ham { display:flex; }
+
+  .hero-inner { grid-template-columns:1fr; gap:48px; }
+  .showcase { display:none; }
+
+  .prob-grid { grid-template-columns:1fr; }
+  .steps-grid { grid-template-columns:1fr 1fr; }
+  .step-c::after { display:none; }
+  .feat-grid { grid-template-columns:1fr; }
+  .stats-inner { grid-template-columns:1fr 1fr; }
+  .demo-layout { grid-template-columns:1fr; gap:48px; }
+  .demo-phone-wrap { display:none; }
+  .sec { padding:64px 20px; }
+}
+
+@media(max-width:520px){
+  .steps-grid { grid-template-columns:1fr; }
+  .hero-pills { gap:7px; }
+  .pill { font-size:11px; padding:7px 13px; }
+  .stats-inner { grid-template-columns:1fr 1fr; gap:16px; }
+}
+
+/* ── AI RESULT SCREEN ── */
+.scr-result {
+  background:var(--off);
+  padding:44px 18px 80px;
+  overflow-y:auto;
+}
+.scr-result::-webkit-scrollbar { display:none; }
+.res-score-ring {
+  width:110px; height:110px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; margin:0 auto 16px;
+  border:5px solid var(--blue);
+  background:#fff; box-shadow:0 0 0 8px rgba(26,111,212,0.08);
+  position:relative;
+}
+.res-score-ring.warn { border-color:var(--orange); box-shadow:0 0 0 8px rgba(240,123,29,0.08); }
+.res-score-ring.danger { border-color:#EF4444; box-shadow:0 0 0 8px rgba(239,68,68,0.08); }
+.res-score-n { font-size:28px; font-weight:800; color:var(--navy); line-height:1; }
+.res-score-l { font-size:9px; color:var(--muted); font-weight:700; letter-spacing:.5px; text-transform:uppercase; }
+.res-level-badge {
+  text-align:center; font-size:13px; font-weight:700;
+  padding:6px 18px; border-radius:100px; margin:0 auto 14px;
+  display:inline-block;
+}
+.res-wrap { text-align:center; }
+.badge-ok   { background:rgba(10,143,130,0.1); color:var(--teal); }
+.badge-warn { background:rgba(240,123,29,0.1); color:var(--orange); }
+.badge-bad  { background:rgba(239,68,68,0.1); color:#EF4444; }
+.res-ai-card {
+  background:#fff; border-radius:16px; padding:16px;
+  margin:14px 0; border:1px solid var(--border);
+  text-align:left;
+}
+.res-ai-title {
+  font-size:11px; font-weight:700; color:var(--blue);
+  text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px;
+  display:flex; align-items:center; gap:6px;
+}
+.res-ai-text {
+  font-size:12px; color:var(--text); line-height:1.7;
+  min-height:60px;
+}
+.res-ai-loading {
+  display:flex; gap:5px; align-items:center; padding:8px 0;
+}
+.dot-pulse span {
+  width:7px; height:7px; background:var(--blue);
+  border-radius:50%; display:inline-block;
+  animation:pulse 1.2s infinite;
+}
+.dot-pulse span:nth-child(2){ animation-delay:.2s; }
+.dot-pulse span:nth-child(3){ animation-delay:.4s; }
+@keyframes pulse { 0%,80%,100%{transform:scale(.7);opacity:.4} 40%{transform:scale(1);opacity:1} }
+.res-actions { display:flex; flex-direction:column; gap:9px; margin-top:14px; }
+.res-btn-psy {
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff; border:none; padding:13px;
+  border-radius:14px; font-size:13px; font-weight:700;
+  width:100%; box-shadow:0 4px 16px rgba(26,111,212,0.3);
+}
+.res-btn-retry {
+  background:#fff; color:var(--muted);
+  border:1.5px solid var(--border); padding:11px;
+  border-radius:14px; font-size:12px; font-weight:600; width:100%;
+}
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+  background:var(--navy); color:#fff; padding:10px 20px;
+  border-radius:100px; font-size:12px; font-weight:600;
+  z-index:99999; transition:transform 0.35s ease, opacity 0.35s;
+  opacity:0; white-space:nowrap;
+}
+.toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+/* ── PWA INSTALL BANNER ── */
+.pwa-banner {
+  position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(120px);
+  background:var(--navy2); border:1px solid rgba(255,255,255,0.12);
+  color:#fff; padding:14px 20px; border-radius:18px;
+  font-size:13px; font-weight:600; z-index:99990;
+  display:flex; align-items:center; gap:12px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  transition:transform 0.4s cubic-bezier(.34,1.56,.64,1), opacity 0.4s;
+  opacity:0; pointer-events:none; white-space:nowrap;
+  max-width:calc(100vw - 40px);
+}
+.pwa-banner.show { transform:translateX(-50%) translateY(0); opacity:1; pointer-events:all; }
+.pwa-banner-ic { font-size:22px; flex-shrink:0; }
+.pwa-banner-txt { flex:1; min-width:0; }
+.pwa-banner-title { font-size:13px; font-weight:700; }
+.pwa-banner-sub { font-size:11px; color:rgba(255,255,255,0.5); margin-top:1px; }
+.pwa-banner-btn {
+  background:var(--orange); color:#fff; border:none;
+  padding:8px 16px; border-radius:100px; font-size:12px; font-weight:700;
+  flex-shrink:0; transition:background 0.2s;
+}
+.pwa-banner-btn:hover { background:var(--orange2); }
+.pwa-banner-close {
+  background:none; border:none; color:rgba(255,255,255,0.35);
+  font-size:16px; padding:0 0 0 4px; flex-shrink:0;
+}
+
+/* ── BOOKING HISTORY IN PROFILE ── */
+.book-history-list { display:flex; flex-direction:column; gap:6px; }
+.book-hist-item {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; background:var(--off);
+  border-radius:10px; font-size:11px;
+}
+.book-hist-name { font-weight:700; color:var(--text); }
+.book-hist-time { color:var(--muted); margin-top:1px; font-size:10px; }
+.book-hist-badge {
+  background:rgba(10,143,130,0.1); color:var(--teal);
+  font-size:9px; font-weight:700; padding:3px 8px; border-radius:100px;
+}
+
+/* ── BOOKING MODAL EXTRA ── */
+.book-slots { display:flex; gap:7px; flex-wrap:wrap; margin:10px 0; }
+.book-slot {
+  padding:7px 13px; border-radius:10px;
+  border:1.5px solid var(--border);
+  font-size:11px; font-weight:600; color:var(--text);
+  cursor:pointer; transition:all 0.2s; background:#fff;
+}
+.book-slot.on { border-color:var(--blue); background:rgba(26,111,212,0.08); color:var(--blue); }
+.book-confirm {
+  width:100%; background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff; border:none; padding:13px; border-radius:14px;
+  font-size:13px; font-weight:700; margin-top:14px;
+  box-shadow:0 4px 16px rgba(26,111,212,0.3);
+}
+</style>
+</head>
+<body class="az">
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="navbar">
+  <div class="nb-logo">Aid<em>ly</em></div>
+  <div class="nb-center">
+    <a href="#problems"><span class="t t-az">Problem</span><span class="t t-en">Problem</span></a>
+    <a href="#how"><span class="t t-az">Necə işləyir</span><span class="t t-en">How it works</span></a>
+    <a href="#demo"><span class="t t-az">Demo</span><span class="t t-en">Demo</span></a>
+    <a href="#cta"><span class="t t-az">Əlaqə</span><span class="t t-en">Contact</span></a>
+  </div>
+  <div class="nb-right">
+    <div class="lang-pill">
+      <button class="on" onclick="setLang('az')">AZ</button>
+      <button onclick="setLang('en')">EN</button>
+    </div>
+    <button class="nb-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+      <span class="t t-az">Başla →</span><span class="t t-en">Get Started →</span>
+    </button>
+    <button class="ham" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mob-menu">
+  <a href="#problems" onclick="toggleMenu()"><span class="t t-az">Problem</span><span class="t t-en">Problem</span></a>
+  <a href="#how" onclick="toggleMenu()"><span class="t t-az">Necə işləyir</span><span class="t t-en">How it works</span></a>
+  <a href="#demo" onclick="toggleMenu()"><span class="t t-az">Demo</span><span class="t t-en">Demo</span></a>
+  <a href="#cta" onclick="toggleMenu()"><span class="t t-az">Əlaqə</span><span class="t t-en">Contact</span></a>
+</div>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge fu fu-1">
+        <span>🇦🇿</span>
+        <span class="t t-az">Azərbaycanda ilk</span>
+        <span class="t t-en">First in Azerbaijan</span>
+      </div>
+      <h1 class="hero-h1 fu fu-2">
+        <span class="t t-az">Psixoloji dəstək<br><span class="hl">hamı üçün</span></span>
+        <span class="t t-en">Mental health<br><span class="hl">for everyone</span></span>
+      </h1>
+      <p class="hero-p fu fu-3">
+        <span class="t t-az">Aidly — psixoloji dəstəyə və sosial xidmətlərə sürətli, anonim və asan çıxış. Azərbaycanın ilk rəqəmsal sağlamlıq platforması.</span>
+        <span class="t t-en">Aidly — fast, anonymous, and easy access to psychological support and social services. Azerbaijan's first digital health platform.</span>
+      </p>
+      <div class="hero-btns fu fu-4">
+        <button class="btn-fill" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+          📱 <span class="t t-az">Demo bax</span><span class="t t-en">See Demo</span>
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+          <span class="t t-az">Necə işləyir →</span><span class="t t-en">How it works →</span>
+        </button>
+      </div>
+      <div class="hero-pills fu fu-4">
+        <div class="pill"><div class="pill-dot"></div><span class="t t-az">3 dil dəstəyi</span><span class="t t-en">3 languages</span></div>
+        <div class="pill"><div class="pill-dot" style="background:var(--orange)"></div><span class="t t-az">Tam anonim</span><span class="t t-en">Fully anonymous</span></div>
+        <div class="pill"><div class="pill-dot" style="background:var(--blue2)"></div><span class="t t-az">Pulsuz başla</span><span class="t t-en">Start free</span></div>
+      </div>
+    </div>
+
+    <!-- PHONE -->
+    <div class="showcase">
+      <div class="phone-shell" id="hero-phone">
+        <div class="phone-island"></div>
+        <!-- HOME -->
+        <div class="scr scr-home on" id="h-home">
+          <div class="sh-top">
+            <div class="sh-logo">Aid<em>ly</em></div>
+            <div class="sh-av" onclick="gotoScr('prof')">A</div>
+          </div>
+          <div class="sh-greet" id="greet">Xoş gəlmisiniz 👋</div>
+          <div class="sh-name" id="uname">Salam, Anar</div>
+          <div class="mood-card">
+            <div class="mc-label" id="mc-lb">Bu gün necəsiniz?</div>
+            <div class="mc-emojis">
+              <div class="mc-e" onclick="pickMood(this)">😊</div>
+              <div class="mc-e" onclick="pickMood(this)">😐</div>
+              <div class="mc-e" onclick="pickMood(this)">😔</div>
+              <div class="mc-e" onclick="pickMood(this)">😰</div>
+            </div>
+          </div>
+          <div class="qa-grid">
+            <div class="qa-c" onclick="gotoScr('test')"><div class="qa-ic">🧠</div><div class="qa-lb" id="qa1">Özünü qiymətləndir</div></div>
+            <div class="qa-c" onclick="gotoScr('psy')"><div class="qa-ic">👨‍⚕️</div><div class="qa-lb" id="qa2">Psixoloq tap</div></div>
+            <div class="qa-c"><div class="qa-ic">🏛️</div><div class="qa-lb" id="qa3">Sosial xidmətlər</div></div>
+            <div class="qa-c"><div class="qa-ic">📚</div><div class="qa-lb" id="qa4">Resurslar</div></div>
+          </div>
+          <div class="up-card">
+            <div class="up-ic">📅</div>
+            <div>
+              <div class="up-t" id="up-t">Növbəti sessiya</div>
+              <div class="up-s" id="up-s">Dr. Leyla Hüseynova · Sabah 15:00</div>
+            </div>
+          </div>
+          <div class="app-bnav">
+            <div class="bnav-i on" onclick="gotoScr('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb" id="nb1">Ana səhifə</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('test')"><div class="bnav-ic">🧠</div><div class="bnav-lb" id="nb2">Test</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb" id="nb3">Psixoloqlar</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb" id="nb4">Profil</div><div class="bnav-dot"></div></div>
+          </div>
+        </div>
+        <!-- TEST -->
+        <div class="scr scr-test" id="h-test">
+          <div class="st-back" onclick="gotoScr('home')">←</div>
+          <div class="st-title" id="st-t">Stress Testi</div>
+          <div class="st-sub" id="st-s">Sual 3/5</div>
+          <div class="prog-wrap"><div class="prog-fill"></div></div>
+          <div class="st-q" id="st-q">Son 2 həftə ərzində özünüzü narahat, gərgin və ya həddindən artıq həyəcanlı hiss etdinizmi?</div>
+          <div class="st-opts">
+            <button class="st-o" onclick="pickOpt(this)" id="o1">Heç vaxt</button>
+            <button class="st-o" onclick="pickOpt(this)" id="o2">Bəzən</button>
+            <button class="st-o" onclick="pickOpt(this)" id="o3">Tez-tez</button>
+            <button class="st-o" onclick="pickOpt(this)" id="o4">Həmişə</button>
+          </div>
+          <button class="st-next" id="st-nx">Növbəti →</button>
+          <div class="app-bnav">
+            <div class="bnav-i" onclick="gotoScr('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i on" onclick="gotoScr('test')"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div>
+          </div>
+        </div>
+        <!-- PSYCHOLOGISTS -->
+        <div class="scr scr-psy" id="h-psy">
+          <div class="sp-head">
+            <div class="sp-title" id="sp-t">Psixoloqlar</div>
+            <div class="sp-filt" id="sp-f">Filtr ⚡</div>
+          </div>
+          <div class="sp-search">🔍 <span id="sp-ph">Axtarın...</span></div>
+          <div class="psy-c">
+            <div class="psy-av" style="background:#EBF5FF">👩‍⚕️</div>
+            <div><div class="psy-name">Dr. Leyla Hüseynova</div><div class="psy-spec" id="ps1">Klinik psixoloq · 8 il</div><div class="psy-meta"><div class="psy-star">★ 4.9</div><div class="psy-price" id="pp1">40₼/sessiya</div></div></div>
+            <button class="psy-btn" id="pb1">Bron et</button>
+          </div>
+          <div class="psy-c">
+            <div class="psy-av" style="background:#FFF3E0">👨‍⚕️</div>
+            <div><div class="psy-name">Rauf Əliyev</div><div class="psy-spec" id="ps2">Uşaq psixoloqu · 5 il</div><div class="psy-meta"><div class="psy-star">★ 4.8</div><div class="psy-price" id="pp2">35₼/sessiya</div></div></div>
+            <button class="psy-btn" id="pb2">Bron et</button>
+          </div>
+          <div class="psy-c">
+            <div class="psy-av" style="background:#E8F5E9">👩‍⚕️</div>
+            <div><div class="psy-name">Nigar Quliyeva</div><div class="psy-spec" id="ps3">Ailə terapevti · 12 il</div><div class="psy-meta"><div class="psy-star">★ 5.0</div><div class="psy-price" id="pp3">50₼/sessiya</div></div></div>
+            <button class="psy-btn" id="pb3">Bron et</button>
+          </div>
+          <div class="app-bnav">
+            <div class="bnav-i" onclick="gotoScr('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('test')"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i on" onclick="gotoScr('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div>
+          </div>
+        </div>
+        <!-- AI RESULT -->
+        <div class="scr scr-result" id="h-result">
+          <div class="st-back" onclick="gotoScr('home')" style="margin-bottom:10px">← Ana səhifə</div>
+          <div class="st-title" style="margin-bottom:16px">🧠 Test Nəticəsi</div>
+          <div class="res-wrap">
+            <div class="res-score-ring" id="res-ring">
+              <div class="res-score-n" id="res-score">—</div>
+              <div class="res-score-l">xal</div>
+            </div>
+            <div class="res-level-badge" id="res-badge">Hesablanır...</div>
+          </div>
+          <div class="res-ai-card">
+            <div class="res-ai-title">🤖 AI Məsləhəti</div>
+            <div class="res-ai-text" id="res-ai-text">
+              <div class="res-ai-loading dot-pulse"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+          <div class="res-actions">
+            <button class="res-btn-psy" onclick="gotoScr('psy')">👨‍⚕️ Psixoloq tap</button>
+            <button class="res-btn-retry" onclick="startTest()">🔄 Testi yenidən keç</button>
+          </div>
+          <div class="app-bnav" style="background:rgba(244,247,251,0.96);border-color:rgba(0,0,0,0.07);backdrop-filter:blur(10px)">
+            <div class="bnav-i" onclick="gotoScr('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb" style="color:rgba(7,25,46,0.3)">Ana səhifə</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i on" onclick="gotoScr('test')"><div class="bnav-ic">🧠</div><div class="bnav-lb" style="color:var(--blue)">Test</div><div class="bnav-dot" style="display:block;background:var(--blue)"></div></div>
+            <div class="bnav-i" onclick="gotoScr('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb" style="color:rgba(7,25,46,0.3)">Psixoloqlar</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb" style="color:rgba(7,25,46,0.3)">Profil</div><div class="bnav-dot"></div></div>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="scr scr-prof" id="h-prof">
+          <div class="prof-header">
+            <div class="prof-av-big">A</div>
+            <div class="prof-name-big">Anar Məmmədov</div>
+            <div class="prof-email">anar@email.com</div>
+            <div class="prof-badge-row">
+              <div class="prof-badge">✓ <span id="prf-ver">Doğrulanmış</span></div>
+              <div class="prof-badge">🔒 <span id="prf-anon">Anonim rejim</span></div>
+            </div>
+          </div>
+          <div class="prof-section-title" id="prf-s1">Hesab</div>
+          <div class="prof-row">
+            <div class="prof-item" onclick="openModal('settings')">
+              <div class="prof-item-ic">⚙️</div>
+              <div class="prof-item-txt"><div class="prof-item-name" id="prf-sett">Parametrlər</div><div class="prof-item-sub" id="prf-sett-s">Bildiriş, məxfilik</div></div>
+              <div class="prof-item-arr">›</div>
+            </div>
+            <div class="prof-item" onclick="openModal('sessions')">
+              <div class="prof-item-ic">📅</div>
+              <div class="prof-item-txt"><div class="prof-item-name" id="prf-sess">Sesiyalarım</div><div class="prof-item-sub" id="prf-sess-s">3 tamamlanmış</div></div>
+              <div class="prof-item-arr">›</div>
+            </div>
+            <div class="prof-item" onclick="openModal('results')">
+              <div class="prof-item-ic">📊</div>
+              <div class="prof-item-txt"><div class="prof-item-name" id="prf-res">Test Nəticələrim</div><div class="prof-item-sub" id="prf-res-s">Son test: 3 gün əvvəl</div></div>
+              <div class="prof-item-arr">›</div>
+            </div>
+          </div>
+          <div class="prof-section-title" id="prf-s2">Dəstək</div>
+          <div class="prof-row">
+            <div class="prof-item">
+              <div class="prof-item-ic">❓</div>
+              <div class="prof-item-txt"><div class="prof-item-name" id="prf-faq">Tez-tez soruşulanlar</div></div>
+              <div class="prof-item-arr">›</div>
+            </div>
+            <div class="prof-item">
+              <div class="prof-item-ic">📞</div>
+              <div class="prof-item-txt"><div class="prof-item-name" id="prf-contact">Bizimlə əlaqə</div></div>
+              <span class="prof-item-badge">Yeni</span>
+            </div>
+          </div>
+          <button class="prof-logout" id="prf-out">🚪 Çıxış</button>
+          <div class="app-bnav">
+            <div class="bnav-i" onclick="gotoScr('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('test')"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i" onclick="gotoScr('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div>
+            <div class="bnav-i on" onclick="gotoScr('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROBLEM ══════════ -->
+<section class="sec sec-prob" id="problems">
+  <div class="sec-in">
+    <span class="sec-kicker fu"><span class="t t-az">Problem</span><span class="t t-en">The Problem</span></span>
+    <h2 class="sec-h2 fu fu-1"><span class="t t-az">Azərbaycanda böyük bir boşluq var</span><span class="t t-en">A major gap in Azerbaijan</span></h2>
+    <p class="sec-p fu fu-2"><span class="t t-az">İnsanlar kömək axtarır, amma hara müraciət edəcəklərini bilmirlər.</span><span class="t t-en">People seek help, but don't know where to turn.</span></p>
+    <div class="prob-grid">
+      <div class="prob-c fu fu-2">
+        <div class="prob-num">01</div>
+        <div class="prob-ic">🌫️</div>
+        <div class="prob-t"><span class="t t-az">Məlumatsızlıq</span><span class="t t-en">Lack of awareness</span></div>
+        <div class="prob-b"><span class="t t-az">İnsanlar ehtiyac duyduqları psixoloji dəstəyin harada olduğunu bilmirlər. Xidmətlər parçalanmış vəziyyətdədir.</span><span class="t t-en">People don't know where to find psychological support. Services are fragmented and hard to find.</span></div>
+      </div>
+      <div class="prob-c fu fu-3">
+        <div class="prob-num">02</div>
+        <div class="prob-ic">🚫</div>
+        <div class="prob-t"><span class="t t-az">Sosial stigma</span><span class="t t-en">Social stigma</span></div>
+        <div class="prob-b"><span class="t t-az">"Psixoloqa getmək" hələ də cəmiyyətdə tabu sayılır. İnsanlar kömək axtarmaqdan çəkinir.</span><span class="t t-en">Seeking psychological help is still taboo. People hesitate to seek help and keep problems to themselves.</span></div>
+      </div>
+      <div class="prob-c fu fu-4">
+        <div class="prob-num">03</div>
+        <div class="prob-ic">🧩</div>
+        <div class="prob-t"><span class="t t-az">Parçalanmış sistem</span><span class="t t-en">Fragmented system</span></div>
+        <div class="prob-b"><span class="t t-az">Sosial xidmətlər, QHT-lər və psixoloji dəstək ayrı-ayrı kanallarda. Vahid rəqəmsal platforma yoxdur.</span><span class="t t-en">Social services, NGOs, and support exist in separate channels. No unified digital platform exists.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="sec sec-how" id="how">
+  <div class="sec-in">
+    <span class="sec-kicker fu"><span class="t t-az">Necə işləyir</span><span class="t t-en">How it works</span></span>
+    <h2 class="sec-h2 fu fu-1"><span class="t t-az">4 addımda dəstək</span><span class="t t-en">Support in 4 steps</span></h2>
+    <p class="sec-p fu fu-2"><span class="t t-az">Sadə, sürətli, tamamilə anonim.</span><span class="t t-en">Simple, fast, completely anonymous.</span></p>
+    <div class="steps-grid">
+      <div class="step-c fu fu-1">
+        <div class="step-n a">01</div>
+        <div class="step-t"><span class="t t-az">Qeydiyyat</span><span class="t t-en">Register</span></div>
+        <div class="step-b"><span class="t t-az">Anonim və ya adlı qeydiyyat — cəmi 30 saniyə. Şəxsi məlumatlarınız qorunur.</span><span class="t t-en">Anonymous or named registration in just 30 seconds. Your personal data is protected.</span></div>
+      </div>
+      <div class="step-c fu fu-2">
+        <div class="step-n b">02</div>
+        <div class="step-t"><span class="t t-az">Test</span><span class="t t-en">Assessment</span></div>
+        <div class="step-b"><span class="t t-az">Qısa özünüqiymətləndirmə testi. Sistem stress, narahatlıq və depressiya səviyyənizi analiz edir.</span><span class="t t-en">Short self-assessment. The system analyzes your stress, anxiety and depression levels.</span></div>
+      </div>
+      <div class="step-c fu fu-3">
+        <div class="step-n c">03</div>
+        <div class="step-t"><span class="t t-az">Yönləndirmə</span><span class="t t-en">Referral</span></div>
+        <div class="step-b"><span class="t t-az">Nəticəyə görə fərdi tövsiyə: psixoloq, QHT və ya sosial xidmət. Siz seçirsiniz.</span><span class="t t-en">Personalized recommendation: psychologist, NGO, or social service. You choose.</span></div>
+      </div>
+      <div class="step-c fu fu-4">
+        <div class="step-n d">04</div>
+        <div class="step-t"><span class="t t-az">Dəstək</span><span class="t t-en">Support</span></div>
+        <div class="step-b"><span class="t t-az">Onlayn sessiya, resurs mərkəzi və ya xidmət referalı. Kömək bir toxunuş uzaqlıqdadır.</span><span class="t t-en">Online session, resource center, or service referral. Help is always one tap away.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FEATURES ══════════ -->
+<section class="sec sec-feat" id="features">
+  <div class="sec-in">
+    <span class="sec-kicker fu"><span class="t t-az">Niyə Aidly?</span><span class="t t-en">Why Aidly?</span></span>
+    <h2 class="sec-h2 fu fu-1"><span class="t t-az">Azərbaycanda unikal</span><span class="t t-en">Unique in Azerbaijan</span></h2>
+    <p class="sec-p fu fu-2"><span class="t t-az">Bu boşluğu dolduran başqa platforma yoxdur.</span><span class="t t-en">No other platform fills this gap.</span></p>
+    <div class="feat-grid">
+      <div class="feat-c fu fu-1">
+        <div class="feat-ic-wrap fi-blue">🔒</div>
+        <div>
+          <div class="feat-t"><span class="t t-az">Tam anonimlik</span><span class="t t-en">Full anonymity</span></div>
+          <div class="feat-b"><span class="t t-az">Adınızı paylaşmadan xidmətdən yararlana bilərsiniz. Məxfilik əsas prioritetimizdir.</span><span class="t t-en">Use the service without sharing your identity. Privacy is our top priority.</span></div>
+        </div>
+      </div>
+      <div class="feat-c dark fu fu-2">
+        <div class="feat-ic-wrap fi-w">🌍</div>
+        <div>
+          <div class="feat-t"><span class="t t-az">3 dil dəstəyi</span><span class="t t-en">3 language support</span></div>
+          <div class="feat-b"><span class="t t-az">Azərbaycan, İngilis və Rus dillərində tam funksional platforma. Hər kəs üçün əlçatan.</span><span class="t t-en">Fully functional in Azerbaijani, English and Russian. Accessible for everyone.</span></div>
+        </div>
+      </div>
+      <div class="feat-c fu fu-3">
+        <div class="feat-ic-wrap fi-org">👨‍⚕️</div>
+        <div>
+          <div class="feat-t"><span class="t t-az">Lisenziyalı mütəxəssislər</span><span class="t t-en">Licensed specialists</span></div>
+          <div class="feat-b"><span class="t t-az">Yalnız sertifikatlı, lisenziyalı psixoloqlar. Hər mütəxəssis yoxlanılmış və qiymətləndirilmişdir.</span><span class="t t-en">Only certified, licensed psychologists. Every specialist is verified and rated.</span></div>
+        </div>
+      </div>
+      <div class="feat-c fu fu-4">
+        <div class="feat-ic-wrap fi-teal">🏛️</div>
+        <div>
+          <div class="feat-t"><span class="t t-az">Sosial xidmətlər kataloqu</span><span class="t t-en">Social services catalog</span></div>
+          <div class="feat-b"><span class="t t-az">Dövlət qurumları, QHT-lər, kömək fondları — hamısı bir yerdə. Filtrlə, tap, müraciət et.</span><span class="t t-en">Government agencies, NGOs, aid funds — all in one place. Filter, find, apply.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STATS ══════════ -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="fu fu-1">
+      <div class="stat-v">1<sub>/4</sub></div>
+      <div class="stat-l"><span class="t t-az">Nəfər həyatında psixoloji yardıma ehtiyac duyur (WHO)</span><span class="t t-en">Person needs psychological help in their lifetime (WHO)</span></div>
+    </div>
+    <div class="fu fu-2">
+      <div class="stat-v">0</div>
+      <div class="stat-l"><span class="t t-az">Azərbaycanda belə platforma mövcuddur</span><span class="t t-en">Such platforms exist in Azerbaijan currently</span></div>
+    </div>
+    <div class="fu fu-3">
+      <div class="stat-v">3.3<sub>M</sub></div>
+      <div class="stat-l"><span class="t t-az">Potensial istifadəçi auditoriyası</span><span class="t t-en">Potential user audience</span></div>
+    </div>
+    <div class="fu fu-4">
+      <div class="stat-v">30<sub>sn</sub></div>
+      <div class="stat-l"><span class="t t-az">İlk dəstəyə çıxış üçün lazım olan vaxt</span><span class="t t-en">Time needed to access first support</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ DEMO ══════════ -->
+<section class="sec sec-demo" id="demo">
+  <div class="sec-in">
+    <div class="demo-layout">
+      <div>
+        <span class="sec-kicker fu"><span class="t t-az">App Demo</span><span class="t t-en">App Demo</span></span>
+        <h2 class="sec-h2 fu fu-1"><span class="t t-az">Platforma necə görünür?</span><span class="t t-en">What does the platform look like?</span></h2>
+        <div class="demo-tabs">
+          <button class="demo-tab on" onclick="switchDemo(this,'home')">🏠 <span class="t t-az">Ana Səhifə</span><span class="t t-en">Home</span></button>
+          <button class="demo-tab" onclick="switchDemo(this,'test')">🧠 <span class="t t-az">Test</span><span class="t t-en">Test</span></button>
+          <button class="demo-tab" onclick="switchDemo(this,'psy')">👨‍⚕️ <span class="t t-az">Psixoloqlar</span><span class="t t-en">Psychologists</span></button>
+          <button class="demo-tab" onclick="switchDemo(this,'prof')">👤 <span class="t t-az">Profil</span><span class="t t-en">Profile</span></button>
+        </div>
+        <div id="demo-txt">
+          <div class="demo-txt-h" id="dtitle">
+            <span class="t t-az">İstifadəçi Ana Səhifəsi</span><span class="t t-en">User Home Screen</span>
+          </div>
+          <div class="demo-txt-p" id="dbody">
+            <span class="t t-az">Hər gün əhvalınızı qeyd edin, psixoloqunuza bron edin, sosial xidmətlərə keçin.</span>
+            <span class="t t-en">Log your daily mood, book your psychologist, access social services — all in one place.</span>
+          </div>
+          <div class="demo-chk" id="dchk">
+            <div class="demo-chk-i"><div class="chk-ic">✓</div><span class="t t-az">Günlük əhval izləmə</span><span class="t t-en">Daily mood tracking</span></div>
+            <div class="demo-chk-i"><div class="chk-ic">✓</div><span class="t t-az">Sürətli keçid düymələri</span><span class="t t-en">Quick access buttons</span></div>
+            <div class="demo-chk-i"><div class="chk-ic">✓</div><span class="t t-az">Sessiya xatırladıcısı</span><span class="t t-en">Session reminder</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- demo phone -->
+      <div class="demo-phone-wrap">
+        <div class="demo-phone" id="demo-ph">
+          <div class="phone-island"></div>
+          <div class="scr scr-home on" id="d-home">
+            <div class="sh-top"><div class="sh-logo">Aid<em>ly</em></div><div class="sh-av">A</div></div>
+            <div class="sh-greet">Xoş gəlmisiniz 👋</div>
+            <div class="sh-name">Salam, Anar</div>
+            <div class="mood-card"><div class="mc-label">Bu gün necəsiniz?</div><div class="mc-emojis"><div class="mc-e" onclick="pickMood(this)">😊</div><div class="mc-e on" onclick="pickMood(this)">😊</div><div class="mc-e" onclick="pickMood(this)">😔</div><div class="mc-e" onclick="pickMood(this)">😰</div></div></div>
+            <div class="qa-grid"><div class="qa-c"><div class="qa-ic">🧠</div><div class="qa-lb">Özünü qiymətləndir</div></div><div class="qa-c"><div class="qa-ic">👨‍⚕️</div><div class="qa-lb">Psixoloq tap</div></div><div class="qa-c"><div class="qa-ic">🏛️</div><div class="qa-lb">Sosial xidmətlər</div></div><div class="qa-c"><div class="qa-ic">📚</div><div class="qa-lb">Resurslar</div></div></div>
+            <div class="up-card"><div class="up-ic">📅</div><div><div class="up-t">Növbəti sessiya</div><div class="up-s">Dr. Leyla Hüseynova · Sabah 15:00</div></div></div>
+            <div class="app-bnav"><div class="bnav-i on"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div></div>
+          </div>
+          <div class="scr scr-test" id="d-test">
+            <div class="st-back">←</div><div class="st-title">Stress Testi</div><div class="st-sub">Sual 3/5</div>
+            <div class="prog-wrap"><div class="prog-fill"></div></div>
+            <div class="st-q">Son 2 həftə ərzində özünüzü narahat, gərgin hiss etdinizmi?</div>
+            <div class="st-opts"><button class="st-o">Heç vaxt</button><button class="st-o on">Bəzən</button><button class="st-o">Tez-tez</button><button class="st-o">Həmişə</button></div>
+            <button class="st-next">Növbəti →</button>
+            <div class="app-bnav"><div class="bnav-i"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div><div class="bnav-i on"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div></div>
+          </div>
+          <div class="scr scr-psy" id="d-psy">
+            <div class="sp-head"><div class="sp-title">Psixoloqlar</div><div class="sp-filt">Filtr ⚡</div></div>
+            <div class="sp-search">🔍 Axtarın...</div>
+            <div class="psy-c"><div class="psy-av" style="background:#EBF5FF">👩‍⚕️</div><div><div class="psy-name">Dr. Leyla Hüseynova</div><div class="psy-spec">Klinik psixoloq · 8 il</div><div class="psy-meta"><div class="psy-star">★ 4.9</div><div class="psy-price">40₼/sessiya</div></div></div><button class="psy-btn">Bron et</button></div>
+            <div class="psy-c"><div class="psy-av" style="background:#FFF3E0">👨‍⚕️</div><div><div class="psy-name">Rauf Əliyev</div><div class="psy-spec">Uşaq psixoloqu · 5 il</div><div class="psy-meta"><div class="psy-star">★ 4.8</div><div class="psy-price">35₼/sessiya</div></div></div><button class="psy-btn">Bron et</button></div>
+            <div class="psy-c"><div class="psy-av" style="background:#E8F5E9">👩‍⚕️</div><div><div class="psy-name">Nigar Quliyeva</div><div class="psy-spec">Ailə terapevti · 12 il</div><div class="psy-meta"><div class="psy-star">★ 5.0</div><div class="psy-price">50₼/sessiya</div></div></div><button class="psy-btn">Bron et</button></div>
+            <div class="app-bnav"><div class="bnav-i"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div><div class="bnav-i on"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div></div>
+          </div>
+          <div class="scr scr-prof" id="d-prof">
+            <div class="prof-header"><div class="prof-av-big">A</div><div class="prof-name-big">Anar Məmmədov</div><div class="prof-email">anar@email.com</div><div class="prof-badge-row"><div class="prof-badge">✓ Doğrulanmış</div><div class="prof-badge">🔒 Anonim</div></div></div>
+            <div class="prof-section-title">Hesab</div>
+            <div class="prof-row">
+              <div class="prof-item"><div class="prof-item-ic">⚙️</div><div class="prof-item-txt"><div class="prof-item-name">Parametrlər</div><div class="prof-item-sub">Bildiriş, məxfilik</div></div><div class="prof-item-arr">›</div></div>
+              <div class="prof-item"><div class="prof-item-ic">📅</div><div class="prof-item-txt"><div class="prof-item-name">Sessiyalarım</div><div class="prof-item-sub">3 tamamlanmış</div></div><div class="prof-item-arr">›</div></div>
+              <div class="prof-item"><div class="prof-item-ic">📊</div><div class="prof-item-txt"><div class="prof-item-name">Test Nəticələrim</div></div><div class="prof-item-arr">›</div></div>
+            </div>
+            <button class="prof-logout">🚪 Çıxış</button>
+            <div class="app-bnav"><div class="bnav-i"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div><div class="bnav-i"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div><div class="bnav-i on"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section class="sec-cta" id="cta">
+  <h2 class="cta-h fu"><span class="t t-az">Birgə dəyişdirək.</span><span class="t t-en">Let's change this together.</span></h2>
+  <p class="cta-p fu fu-1"><span class="t t-az">Azərbaycanda psixoloji dəstəyə çıxış hər kəsin hüququdur.</span><span class="t t-en">Access to psychological support is everyone's right in Azerbaijan.</span></p>
+  <div class="cta-btns fu fu-2">
+    <button class="btn-fill" style="font-size:15px;padding:16px 32px;border-radius:14px;">
+      📱 <span class="t t-az">Tətbiqi yüklə</span><span class="t t-en">Download the App</span>
+    </button>
+    <button class="btn-store">🍎 App Store</button>
+    <button class="btn-store">🤖 Google Play</button>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="ft-logo">Aid<em>ly</em></div>
+  <div class="ft-c">© 2025 Aidly · Social Impact Hackathon</div>
+</footer>
+
+<!-- ══════════ MODAL ══════════ -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title">—</div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- PWA INSTALL BANNER -->
+<div class="pwa-banner" id="pwa-banner">
+  <div class="pwa-banner-ic">📱</div>
+  <div class="pwa-banner-txt">
+    <div class="pwa-banner-title" id="pwa-title">Aidly-ni telefona əlavə et</div>
+    <div class="pwa-banner-sub" id="pwa-sub">Offline işləyir • Tez açılır</div>
+  </div>
+  <button class="pwa-banner-btn" id="pwa-install-btn" onclick="triggerPWAInstall()">Əlavə et</button>
+  <button class="pwa-banner-close" onclick="dismissPWA()">✕</button>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   AIDLY v4 — CONFIG
+   API key üçün: window.AIDLY_API_KEY = 'sk-ant-...'
+   Production-da Netlify Function istifadə edin.
+══════════════════════════════════════════ */
+window.AIDLY_API_KEY = ''; // ← Buraya Anthropic API key yazın (yalnız test üçün)
+/* ══════════════════════════════════════
+   PWA — Service Worker (inline)
+══════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'aidly-v1';
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(c => c.addAll([self.location.pathname])));
+      self.skipWaiting();
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+    });
+  `;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(() => {});
+}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ══════════════════════════════════════
+   LANGUAGE
+══════════════════════════════════════ */
+const TR = {
+  az:{
+    greet:'Xoş gəlmisiniz 👋', uname:'Salam, Anar',
+    'mc-lb':'Bu gün necəsiniz?',
+    qa1:'Özünü qiymətləndir', qa2:'Psixoloq tap',
+    qa3:'Sosial xidmətlər', qa4:'Resurslar',
+    'up-t':'Növbəti sessiya', 'up-s':'Dr. Leyla Hüseynova · Sabah 15:00',
+    'st-t':'Stress Testi', 'st-s':'Sual 3/5',
+    'st-q':'Son 2 həftə ərzində özünüzü narahat, gərgin və ya həddindən artıq həyəcanlı hiss etdinizmi?',
+    o1:'Heç vaxt', o2:'Bəzən', o3:'Tez-tez', o4:'Həmişə',
+    'st-nx':'Növbəti →',
+    'sp-t':'Psixoloqlar', 'sp-f':'Filtr ⚡', 'sp-ph':'Axtarın...',
+    ps1:'Klinik psixoloq · 8 il', ps2:'Uşaq psixoloqu · 5 il', ps3:'Ailə terapevti · 12 il',
+    pp1:'40₼/sessiya', pp2:'35₼/sessiya', pp3:'50₼/sessiya',
+    pb1:'Bron et', pb2:'Bron et', pb3:'Bron et',
+    'prf-ver':'Doğrulanmış', 'prf-anon':'Anonim rejim',
+    'prf-s1':'Hesab', 'prf-s2':'Dəstək',
+    'prf-sett':'Parametrlər', 'prf-sett-s':'Bildiriş, məxfilik',
+    'prf-sess':'Sessiyalarım', 'prf-sess-s':'3 tamamlanmış',
+    'prf-res':'Test Nəticələrim', 'prf-res-s':'Son test: 3 gün əvvəl',
+    'prf-faq':'Tez-tez soruşulanlar', 'prf-contact':'Bizimlə əlaqə',
+    'prf-out':'🚪 Çıxış',
+    nb1:'Ana səhifə', nb2:'Test', nb3:'Psixoloqlar', nb4:'Profil',
+  },
+  en:{
+    greet:'Welcome 👋', uname:'Hello, Anar',
+    'mc-lb':'How are you today?',
+    qa1:'Self-assess', qa2:'Find psychologist',
+    qa3:'Social services', qa4:'Resources',
+    'up-t':'Next session', 'up-s':'Dr. Leyla Huseynova · Tomorrow 15:00',
+    'st-t':'Stress Test', 'st-s':'Question 3/5',
+    'st-q':'In the past 2 weeks, have you felt nervous, anxious, or on edge?',
+    o1:'Never', o2:'Sometimes', o3:'Often', o4:'Always',
+    'st-nx':'Next →',
+    'sp-t':'Psychologists', 'sp-f':'Filter ⚡', 'sp-ph':'Search...',
+    ps1:'Clinical psychologist · 8 yrs', ps2:'Child psychologist · 5 yrs', ps3:'Family therapist · 12 yrs',
+    pp1:'40₼/session', pp2:'35₼/session', pp3:'50₼/session',
+    pb1:'Book', pb2:'Book', pb3:'Book',
+    'prf-ver':'Verified', 'prf-anon':'Anonymous mode',
+    'prf-s1':'Account', 'prf-s2':'Support',
+    'prf-sett':'Settings', 'prf-sett-s':'Notifications, privacy',
+    'prf-sess':'My Sessions', 'prf-sess-s':'3 completed',
+    'prf-res':'My Test Results', 'prf-res-s':'Last test: 3 days ago',
+    'prf-faq':'FAQ', 'prf-contact':'Contact us',
+    'prf-out':'🚪 Sign out',
+    nb1:'Home', nb2:'Test', nb3:'Psychologists', nb4:'Profile',
+  }
+};
+
+function setLang(l) {
+  document.body.className = l;
+  document.querySelectorAll('.lang-pill button').forEach(b => {
+    b.classList.toggle('on', b.textContent.toLowerCase() === l);
+  });
+  const t = TR[l];
+  Object.keys(t).forEach(k => {
+    document.querySelectorAll('#'+k).forEach(el => el.textContent = t[k]);
+  });
+  localStorage.setItem('lang', l);
+}
+
+/* ══ PHONE NAVIGATION ══ */
+let curScr = 'home';
+function gotoScr(name) {
+  curScr = name;
+  ['home','test','psy','prof','result'].forEach(s => {
+    const el = document.getElementById('h-'+s);
+    if(el) el.classList.toggle('on', s===name);
+  });
+}
+
+/* ══ MOOD ══ */
+function pickMood(el) {
+  el.closest('.mc-emojis').querySelectorAll('.mc-e').forEach(e => e.classList.remove('on'));
+  el.classList.add('on');
+  localStorage.setItem('aidly_mood', el.dataset.mood || el.textContent);
+  showToast('Əhvalınız qeydə alındı ' + el.textContent);
+}
+
+/* ══ TEST ENGINE ══ */
+const QUESTIONS = {
+  az: [
+    { q: 'Son 2 həftə ərzində özünüzü narahat, gərgin və ya həddindən artıq həyəcanlı hiss etdinizmi?', opts: ['Heç vaxt','Bəzən','Tez-tez','Həmişə'] },
+    { q: 'Gündəlik işlərdə maraq və zövq hissinizi itirdinizmi?', opts: ['Heç vaxt','Bəzən','Tez-tez','Həmişə'] },
+    { q: 'Yuxu problemləriniz oldu — çox yatmaq ya da az yatmaq?', opts: ['Heç vaxt','Bəzən','Tez-tez','Həmişə'] },
+    { q: 'Yorğunluq ya da enerji çatışmazlığı hiss etdinizmi?', opts: ['Heç vaxt','Bəzən','Tez-tez','Həmişə'] },
+    { q: 'Özünüzə inamınız azaldı ya da özünüzü dəyərsiz hiss etdinizmi?', opts: ['Heç vaxt','Bəzən','Tez-tez','Həmişə'] }
+  ],
+  en: [
+    { q: 'Over the past 2 weeks, have you felt nervous, anxious, or on edge?', opts: ['Never','Sometimes','Often','Always'] },
+    { q: 'Have you lost interest or pleasure in doing things you used to enjoy?', opts: ['Never','Sometimes','Often','Always'] },
+    { q: 'Have you had trouble sleeping too little or too much?', opts: ['Never','Sometimes','Often','Always'] },
+    { q: 'Have you been feeling tired or having little energy?', opts: ['Never','Sometimes','Often','Always'] },
+    { q: 'Has your confidence or self-esteem felt lower than usual?', opts: ['Never','Sometimes','Often','Always'] }
+  ]
+};
+
+let testQ = 0;
+let testAnswers = [];
+
+function startTest() {
+  testQ = 0;
+  testAnswers = [];
+  renderQ();
+  gotoScr('test');
+}
+
+function renderQ() {
+  const l = document.body.className === 'en' ? 'en' : 'az';
+  const qs = QUESTIONS[l];
+  if (testQ >= qs.length) { finishTest(); return; }
+  const q = qs[testQ];
+
+  document.getElementById('st-t').textContent = l === 'az' ? 'Stress Testi' : 'Stress Test';
+  document.getElementById('st-s').textContent = (l === 'az' ? 'Sual ' : 'Question ') + (testQ+1) + '/' + qs.length;
+  document.getElementById('st-q').textContent = q.q;
+
+  const opts = document.querySelectorAll('#h-test .st-o');
+  opts.forEach((o, i) => {
+    o.textContent = q.opts[i];
+    o.classList.remove('on');
+    o.onclick = () => { opts.forEach(x => x.classList.remove('on')); o.classList.add('on'); };
+  });
+
+  const prog = document.querySelector('#h-test .prog-fill');
+  if(prog) prog.style.width = ((testQ / qs.length) * 100) + '%';
+
+  document.getElementById('st-nx').onclick = () => {
+    const sel = document.querySelector('#h-test .st-o.on');
+    if (!sel) { showToast(l === 'az' ? 'Zəhmət olmasa cavab seçin' : 'Please select an answer'); return; }
+    const val = q.opts.indexOf(sel.textContent);
+    testAnswers.push(val >= 0 ? val : 0);
+    testQ++;
+    renderQ();
+  };
+}
+
+function finishTest() {
+  const total = testAnswers.reduce((a,b) => a+b, 0);
+  const max = testAnswers.length * 3;
+  const pct = Math.round((total / max) * 100);
+  const l = document.body.className === 'en' ? 'en' : 'az';
+
+  let level, badgeClass, ringClass;
+  if (pct < 35) {
+    level = l === 'az' ? '😊 Yaxşı Vəziyyət' : '😊 Good State';
+    badgeClass = 'badge-ok'; ringClass = '';
+  } else if (pct < 65) {
+    level = l === 'az' ? '⚠️ Orta Narahatlıq' : '⚠️ Moderate Anxiety';
+    badgeClass = 'badge-warn'; ringClass = 'warn';
+  } else {
+    level = l === 'az' ? '🔴 Yüksək Stress' : '🔴 High Stress';
+    badgeClass = 'badge-bad'; ringClass = 'danger';
+  }
+
+  document.getElementById('res-score').textContent = pct;
+  const ring = document.getElementById('res-ring');
+  ring.className = 'res-score-ring ' + ringClass;
+  const badge = document.getElementById('res-badge');
+  badge.textContent = level;
+  badge.className = 'res-level-badge ' + badgeClass;
+
+  localStorage.setItem('aidly_last_test', JSON.stringify({ score: pct, level, date: new Date().toLocaleDateString() }));
+  gotoScr('result');
+  getAIAdvice(pct, l);
+}
+
+async function getAIAdvice(score, lang) {
+  const aiEl = document.getElementById('res-ai-text');
+  aiEl.innerHTML = '<div class="res-ai-loading dot-pulse"><span></span><span></span><span></span></div>';
+
+  const prompt = lang === 'az'
+    ? `Sən Aidly tətbiqinin psixoloji məsləhət sistemisinisən. İstifadəçi stress testini tamamladı. Xal: ${score}/100. Qısa, şəfqətli, praktik Azərbaycan dilində məsləhət ver (3-4 cümlə). Klinik dil işlətmə, sadə danış.`
+    : `You are the Aidly app's psychological advice system. The user completed a stress test. Score: ${score}/100. Give brief, compassionate, practical advice in English (3-4 sentences). Use simple, non-clinical language.`;
+
+  // Try Netlify proxy first (for production), then direct API if API key provided, else fallback
+  let text = null;
+
+  try {
+    const res = await fetch('/api/advice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ score, lang })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      text = data.advice || null;
+    }
+  } catch { text = null; }
+
+  // Smart local fallback based on score
+  if (!text) {
+    const fb = {
+      az: {
+        low:  'Test nəticəniz yaxşı vəziyyəti göstərir. Mövcud müsbət vərdişlərinizi qoruyun — düzenli yuxu, hərəkət və sevdiklərinizlə vaxt. Özünüzə diqqət yetirmək güclü insanların xüsusiyyətidir.',
+        mid:  'Orta səviyyəli narahatlıq işarələri var. Günün sonunda 5 dəqiqə nəfəs məşqi sınayın, yükü azaldın. Lazım olsa, mütəxəssisə müraciət etməkdən çəkinməyin — bu zəiflik deyil, müdriklikdir.',
+        high: 'Yüksək stress səviyyəsi aşkarlandı. Bu normal bir insan reaksiyasıdır, özünüzü günahlandırmayın. Bu gün bir mütəxəssislə danışın — kiçik bir addım böyük fərq yaradır. Siz tək deyilsiniz.'
+      },
+      en: {
+        low:  'Your results indicate a good state of wellbeing. Keep protecting the positive habits you already have — regular sleep, movement, and time with people you care about. Paying attention to yourself is a sign of strength.',
+        mid:  'Some moderate signs of stress are present. Try a 5-minute breathing exercise at the end of each day to reduce the load. If needed, don\'t hesitate to speak to a professional — that\'s wisdom, not weakness.',
+        high: 'High stress levels were detected. This is a normal human reaction — please don\'t blame yourself. Speak with a professional today — one small step can make a big difference. You are not alone.'
+      }
+    };
+    const lvl = score < 35 ? 'low' : score < 65 ? 'mid' : 'high';
+    text = fb[lang][lvl];
+  }
+
+  // Typewriter effect
+  aiEl.textContent = '';
+  let i = 0;
+  const tick = () => {
+    if (i < text.length) {
+      aiEl.textContent += text[i++];
+      setTimeout(tick, 18);
+    }
+  };
+  tick();
+}
+
+/* ══ TEST OPTIONS (inline onclick fallback) ══ */
+function pickOpt(el) {
+  document.querySelectorAll('#h-test .st-o').forEach(o => o.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ══ DEMO SECTION ══ */
+const demoData = {
+  home:{
+    az:{ h:'İstifadəçi Ana Səhifəsi', p:'Hər gün əhvalınızı qeyd edin, psixoloqunuza bron edin, sosial xidmətlərə keçin.', checks:['Günlük əhval izləmə','Sürətli keçid düymələri','Sessiya xatırladıcısı'] },
+    en:{ h:'User Home Screen', p:'Log your daily mood, book your psychologist, access social services.', checks:['Daily mood tracking','Quick access buttons','Session reminder'] }
+  },
+  test:{
+    az:{ h:'Özünüqiymətləndirmə Testi', p:'Elmi əsaslı qısa test. Stress, narahatlıq, depressiya səviyyənizi 5 dəqiqədə analiz edir.', checks:['PHQ-9 və GAD-7 əsaslı','Nəticə dərhal göstərilir','AI fərdi məsləhət verir'] },
+    en:{ h:'Self-Assessment Test', p:'Evidence-based short test. Analyzes your stress, anxiety, and depression in 5 minutes.', checks:['Based on PHQ-9 & GAD-7','Results shown instantly','AI gives personalized advice'] }
+  },
+  psy:{
+    az:{ h:'Psixoloq Kataloqu', p:'Lisenziyalı, sertifikatlı psixoloqlar. Filtrlə, müqayisə et, birbaşa bron et.', checks:['Yalnız lisenziyalı mütəxəssislər','Real istifadəçi rəyləri','Onlayn ödəniş imkanı'] },
+    en:{ h:'Psychologist Directory', p:'Licensed, certified psychologists. Filter, compare, and book directly.', checks:['Only licensed specialists','Real user reviews','Online payment option'] }
+  },
+  prof:{
+    az:{ h:'Şəxsi Profil', p:'Sesiyalarınızı, test nəticələrinizi izləyin. Parametrləri idarə edin.', checks:['Sessiya tarixi','Test nəticə arxivi','Tam məxfilik kontrolu'] },
+    en:{ h:'Personal Profile', p:'Track your sessions and test results. Manage your settings.', checks:['Session history','Test result archive','Full privacy control'] }
+  }
+};
+
+function switchDemo(btn, scr) {
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  const l = document.body.className === 'en' ? 'en' : 'az';
+  const d = demoData[scr][l];
+  document.getElementById('dtitle').textContent = d.h;
+  document.getElementById('dbody').textContent = d.p;
+  document.getElementById('dchk').innerHTML = d.checks.map(c => `<div class="demo-chk-i"><div class="chk-ic">✓</div>${c}</div>`).join('');
+  ['home','test','psy','prof'].forEach(s => { document.getElementById('d-'+s).classList.toggle('on', s===scr); });
+}
+
+/* ══ MODAL ══ */
+const modalContent = {
+  settings:{ az:{ t:'Parametrlər', b:'Bildiriş tənzimləmələri, məxfilik parametrləri, dil seçimi.' }, en:{ t:'Settings', b:'Notification settings, privacy parameters, language selection.' } },
+  sessions:{ az:{ t:'Sessiyalarım', b:'Dr. Leyla Hüseynova ilə 3 sessiya tamamlanmışdır. Növbəti sessiya: sabah saat 15:00.' }, en:{ t:'My Sessions', b:'3 sessions completed with Dr. Leyla Huseynova. Next session: tomorrow at 15:00.' } },
+  results:{ az:{ t:'Test Nəticələrim', b:'Son stress testi: Orta səviyyə narahatlıq. Tövsiyə: həftədə bir dəfə psixoloq sessiyası.' }, en:{ t:'My Test Results', b:'Latest stress test: Moderate anxiety. Recommendation: one session per week.' } }
+};
+
+function openModal(type) {
+  const l = document.body.className === 'en' ? 'en' : 'az';
+  const d = modalContent[type][l];
+  document.getElementById('modal-title').textContent = d.t;
+  document.getElementById('modal-body').innerHTML = `<p style="font-size:14px;color:#7E95B0;line-height:1.7">${d.b}</p>`;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+/* ══ BOOKING ══ */
+function openBooking(name, price) {
+  const l = document.body.className === 'en' ? 'en' : 'az';
+  const slots = ['09:00','10:30','12:00','14:00','15:30','17:00'];
+  document.getElementById('modal-title').textContent = (l === 'az' ? 'Bron et — ' : 'Book — ') + name;
+  document.getElementById('modal-body').innerHTML = `
+    <p style="font-size:12px;color:var(--muted);margin-bottom:8px">${l === 'az' ? 'Vaxt seçin:' : 'Select a time:'}</p>
+    <div class="book-slots">${slots.map(s=>`<div class="book-slot" onclick="selectSlot(this)">${s}</div>`).join('')}</div>
+    <button class="book-confirm" onclick="confirmBook('${name}','${price}')">${l === 'az' ? '✅ Bronlaşdır' : '✅ Confirm Booking'}</button>`;
+  document.getElementById('modal').classList.add('open');
+}
+function selectSlot(el) {
+  document.querySelectorAll('.book-slot').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+}
+function confirmBook(name, price) {
+  const l = document.body.className === 'en' ? 'en' : 'az';
+  const slot = document.querySelector('.book-slot.on');
+  if (!slot) { showToast(l === 'az' ? 'Vaxt seçin' : 'Select a time'); return; }
+
+  // Save booking to localStorage
+  const bookings = JSON.parse(localStorage.getItem('aidly_bookings') || '[]');
+  const today = new Date();
+  const booking = {
+    name, price,
+    time: slot.textContent,
+    date: today.toLocaleDateString('az-AZ'),
+    ts: Date.now()
+  };
+  bookings.unshift(booking);
+  if (bookings.length > 10) bookings.pop();
+  localStorage.setItem('aidly_bookings', JSON.stringify(bookings));
+
+  closeModal();
+  showToast((l === 'az' ? '✅ Bron edildi: ' : '✅ Booked: ') + name + ' ' + slot.textContent);
+  document.getElementById('up-s').textContent = name + ' · ' + slot.textContent;
+
+  // Update session count in profile
+  updateProfileSessions();
+}
+
+/* ══ BOOKING BUTTONS ══ */
+document.querySelectorAll('.psy-btn').forEach((btn, i) => {
+  const names = ['Dr. Leyla Hüseynova','Rauf Əliyev','Nigar Quliyeva'];
+  const prices = ['40₼','35₼','50₼'];
+  btn.onclick = () => openBooking(names[i], prices[i]);
+});
+
+/* ══ QUICK ACCESS GRID ══ */
+document.querySelectorAll('.qa-c').forEach((c, i) => {
+  c.onclick = () => {
+    if (i === 0) startTest();
+    else if (i === 1) gotoScr('psy');
+    else if (i === 2) showToast('Sosial xidmətlər tezliklə əlavə ediləcək ✨');
+    else showToast('Resurslar bölməsi hazırlanır 📚');
+  };
+});
+
+/* ══ PROFILE SESSIONS UPDATE ══ */
+function updateProfileSessions() {
+  const bookings = JSON.parse(localStorage.getItem('aidly_bookings') || '[]');
+  const l = document.body.className === 'en' ? 'en' : 'az';
+  const cnt = bookings.length;
+  const sessEl = document.getElementById('prf-sess-s');
+  if (sessEl) {
+    sessEl.textContent = l === 'az'
+      ? cnt + ' bron edilmiş'
+      : cnt + ' booked';
+  }
+}
+
+/* ══ MODAL — SESSION HISTORY ══ */
+const _openModal = openModal;
+function openModal(type) {
+  if (type === 'sessions') {
+    const l = document.body.className === 'en' ? 'en' : 'az';
+    const bookings = JSON.parse(localStorage.getItem('aidly_bookings') || '[]');
+    document.getElementById('modal-title').textContent = l === 'az' ? 'Bronlarım' : 'My Bookings';
+    if (bookings.length === 0) {
+      document.getElementById('modal-body').innerHTML = `<p style="font-size:13px;color:var(--muted);text-align:center;padding:20px 0">${l === 'az' ? 'Hələ bron yoxdur' : 'No bookings yet'}</p>`;
+    } else {
+      document.getElementById('modal-body').innerHTML = `
+        <div class="book-history-list">
+          ${bookings.map(b => `
+            <div class="book-hist-item">
+              <div>
+                <div class="book-hist-name">${b.name}</div>
+                <div class="book-hist-time">${b.date} · ${b.time} · ${b.price}</div>
+              </div>
+              <span class="book-hist-badge">${l === 'az' ? 'Bronlandı' : 'Booked'}</span>
+            </div>`).join('')}
+        </div>`;
+    }
+    document.getElementById('modal').classList.add('open');
+    return;
+  }
+  _openModal(type);
+}
+
+/* ══ PWA INSTALL ══ */
+let _pwaPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  _pwaPrompt = e;
+  const dismissed = localStorage.getItem('aidly_pwa_dismissed');
+  if (!dismissed) {
+    setTimeout(() => {
+      const banner = document.getElementById('pwa-banner');
+      if (banner) banner.classList.add('show');
+    }, 3000);
+  }
+});
+
+function triggerPWAInstall() {
+  if (_pwaPrompt) {
+    _pwaPrompt.prompt();
+    _pwaPrompt.userChoice.then(r => {
+      if (r.outcome === 'accepted') {
+        showToast('✅ Aidly əlavə edildi!');
+        localStorage.setItem('aidly_pwa_dismissed', '1');
+      }
+      _pwaPrompt = null;
+    });
+  } else {
+    const l = document.body.className === 'en' ? 'en' : 'az';
+    showToast(l === 'az'
+      ? 'Safari: "Paylaş → Ana ekrana əlavə et"'
+      : 'Safari: "Share → Add to Home Screen"');
+  }
+  document.getElementById('pwa-banner').classList.remove('show');
+}
+function dismissPWA() {
+  document.getElementById('pwa-banner').classList.remove('show');
+  localStorage.setItem('aidly_pwa_dismissed', '1');
+}
+
+window.addEventListener('appinstalled', () => {
+  showToast('🎉 Aidly uğurla quraşdırıldı!');
+  document.getElementById('pwa-banner').classList.remove('show');
+});
+
+/* ══ UPDATE PWA BANNER LANG ══ */
+const _setLang = setLang;
+function setLang(l) {
+  _setLang(l);
+  const titleEl = document.getElementById('pwa-title');
+  const subEl = document.getElementById('pwa-sub');
+  const btnEl = document.getElementById('pwa-install-btn');
+  if (titleEl) titleEl.textContent = l === 'az' ? 'Aidly-ni telefona əlavə et' : 'Add Aidly to your phone';
+  if (subEl) subEl.textContent = l === 'az' ? 'Offline işləyir • Tez açılır' : 'Works offline • Opens fast';
+  if (btnEl) btnEl.textContent = l === 'az' ? 'Əlavə et' : 'Install';
+  updateProfileSessions();
+}
+
+/* ══ SERVICE WORKER REGISTER ══ */
+if ('serviceWorker' in navigator) {
+  const swCode = `
+const CACHE = 'aidly-v4';
+const ASSETS = [self.location.href || '/'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => cached))
+  );
+});`;
+  const swBlob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl).catch(() => {});
+}
+
+
+/* ══ HAMBURGER ══ */
+function toggleMenu() { document.getElementById('mob-menu').classList.toggle('open'); }
+
+/* ══ SCROLL REVEAL ══ */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+/* ══ INIT ══ */
+const savedLang = localStorage.getItem('lang') || 'az';
+setLang(savedLang);
+document.querySelectorAll('.lang-pill button').forEach(b => {
+  b.onclick = () => setLang(b.textContent.toLowerCase());
+});
+window.addEventListener('load', () => {
+  const savedMood = localStorage.getItem('aidly_mood');
+  if (savedMood) {
+    document.querySelectorAll('.mc-e').forEach(e => {
+      if ((e.dataset.mood || e.textContent) === savedMood) e.classList.add('on');
+    });
+  }
+  const lastTest = localStorage.getItem('aidly_last_test');
+  if (lastTest) {
+    try {
+      const t = JSON.parse(lastTest);
+      const el = document.getElementById('prf-res-s');
+      if (el) el.textContent = t.date + ' · ' + t.score + '%';
+    } catch {}
+  }
+
+  // Restore last booking to upcoming session card
+  const bookings = JSON.parse(localStorage.getItem('aidly_bookings') || '[]');
+  if (bookings.length > 0) {
+    const last = bookings[0];
+    const upEl = document.getElementById('up-s');
+    if (upEl) upEl.textContent = last.name + ' · ' + last.time;
+  }
+
+  updateProfileSessions();
+});
+</script>
+</body>
+</html>
