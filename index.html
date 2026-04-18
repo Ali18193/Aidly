@@ -998,6 +998,48 @@ footer {
   font-size:9px; font-weight:700; padding:3px 8px; border-radius:100px;
 }
 
+/* ═══════════════════════════════════════════
+   FULL-SCREEN APP OVERLAY
+═══════════════════════════════════════════ */
+.app-overlay {
+  position:fixed; inset:0; z-index:9000;
+  background:var(--navy);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.35s ease;
+}
+.app-overlay.open {
+  opacity:1; pointer-events:all;
+}
+.app-overlay-inner {
+  width:100%; height:100%;
+  max-width:480px;
+  position:relative;
+  background:var(--off);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+}
+
+/* close button */
+.app-overlay-close {
+  position:absolute; top:12px; right:14px; z-index:10;
+  background:rgba(7,25,46,0.08); border:none;
+  width:34px; height:34px; border-radius:50%;
+  font-size:16px; color:var(--text);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:background 0.2s;
+}
+.app-overlay-close:hover { background:rgba(7,25,46,0.15); }
+
+/* screens inside overlay */
+.app-overlay .scr {
+  position:absolute; inset:0;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.3s;
+  display:flex; flex-direction:column;
+}
+.app-overlay .scr.on { opacity:1; pointer-events:all; }
+
 /* ── BOOKING MODAL EXTRA ── */
 .book-slots { display:flex; gap:7px; flex-wrap:wrap; margin:10px 0; }
 .book-slot {
@@ -1031,7 +1073,7 @@ footer {
       <button class="on" onclick="setLang('az')">AZ</button>
       <button onclick="setLang('en')">EN</button>
     </div>
-    <button class="nb-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+    <button class="nb-cta" onclick="openApp('home')">
       <span class="t t-az">Başla →</span><span class="t t-en">Get Started →</span>
     </button>
     <button class="ham" onclick="toggleMenu()">
@@ -1065,8 +1107,8 @@ footer {
         <span class="t t-en">Aidly — fast, anonymous, and easy access to psychological support and social services. Azerbaijan's first digital health platform.</span>
       </p>
       <div class="hero-btns fu fu-4">
-        <button class="btn-fill" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
-          📱 <span class="t t-az">Demo bax</span><span class="t t-en">See Demo</span>
+        <button class="btn-fill" onclick="openApp('home')">
+          📱 <span class="t t-az">Testi Başlat</span><span class="t t-en">Start Test</span>
         </button>
         <button class="btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
           <span class="t t-az">Necə işləyir →</span><span class="t t-en">How it works →</span>
@@ -1454,11 +1496,11 @@ footer {
   <h2 class="cta-h fu"><span class="t t-az">Birgə dəyişdirək.</span><span class="t t-en">Let's change this together.</span></h2>
   <p class="cta-p fu fu-1"><span class="t t-az">Azərbaycanda psixoloji dəstəyə çıxış hər kəsin hüququdur.</span><span class="t t-en">Access to psychological support is everyone's right in Azerbaijan.</span></p>
   <div class="cta-btns fu fu-2">
-    <button class="btn-fill" style="font-size:15px;padding:16px 32px;border-radius:14px;">
-      📱 <span class="t t-az">Tətbiqi yüklə</span><span class="t t-en">Download the App</span>
+    <button class="btn-fill" style="font-size:15px;padding:16px 32px;border-radius:14px;" onclick="openApp('home')">
+      🧠 <span class="t t-az">İndi Başla — Pulsuzdur</span><span class="t t-en">Start Now — It's Free</span>
     </button>
-    <button class="btn-store">🍎 App Store</button>
-    <button class="btn-store">🤖 Google Play</button>
+    <button class="btn-store" onclick="openApp('test')">🧪 <span class="t t-az">Testi keç</span><span class="t t-en">Take the test</span></button>
+    <button class="btn-store" onclick="openApp('psy')">👨‍⚕️ <span class="t t-az">Psixoloq tap</span><span class="t t-en">Find psychologist</span></button>
   </div>
 </section>
 
@@ -1479,6 +1521,166 @@ footer {
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ══════════ FULL-SCREEN APP OVERLAY ══════════ -->
+<div class="app-overlay" id="app-overlay">
+  <div class="app-overlay-inner">
+    <button class="app-overlay-close" onclick="closeApp()">✕</button>
+
+    <!-- HOME SCREEN -->
+    <div class="scr scr-home on" id="a-home">
+      <div class="sh-top">
+        <div class="sh-logo">Aid<em>ly</em></div>
+        <div class="sh-av" onclick="appGoto('prof')">A</div>
+      </div>
+      <div class="sh-greet" id="a-greet">Xoş gəlmisiniz 👋</div>
+      <div class="sh-name" id="a-uname">Salam, Anar</div>
+      <div class="mood-card">
+        <div class="mc-label">Bu gün necəsiniz?</div>
+        <div class="mc-emojis">
+          <div class="mc-e" onclick="pickMood(this)">😊</div>
+          <div class="mc-e" onclick="pickMood(this)">😐</div>
+          <div class="mc-e" onclick="pickMood(this)">😔</div>
+          <div class="mc-e" onclick="pickMood(this)">😰</div>
+        </div>
+      </div>
+      <div class="qa-grid">
+        <div class="qa-c" onclick="appStartTest()"><div class="qa-ic">🧠</div><div class="qa-lb">Özünü qiymətləndir</div></div>
+        <div class="qa-c" onclick="appGoto('psy')"><div class="qa-ic">👨‍⚕️</div><div class="qa-lb">Psixoloq tap</div></div>
+        <div class="qa-c" onclick="showToast('Sosial xidmətlər tezliklə ✨')"><div class="qa-ic">🏛️</div><div class="qa-lb">Sosial xidmətlər</div></div>
+        <div class="qa-c" onclick="showToast('Resurslar bölməsi hazırlanır 📚')"><div class="qa-ic">📚</div><div class="qa-lb">Resurslar</div></div>
+      </div>
+      <div class="up-card">
+        <div class="up-ic">📅</div>
+        <div>
+          <div class="up-t">Növbəti sessiya</div>
+          <div class="up-s" id="a-up-s">Dr. Leyla Hüseynova · Sabah 15:00</div>
+        </div>
+      </div>
+      <div class="app-bnav">
+        <div class="bnav-i on" onclick="appGoto('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appStartTest()"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appGoto('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appGoto('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div>
+      </div>
+    </div>
+
+    <!-- TEST SCREEN -->
+    <div class="scr scr-test" id="a-test">
+      <div class="st-back" onclick="appGoto('home')">←</div>
+      <div class="st-title" id="a-st-t">Stress Testi</div>
+      <div class="st-sub" id="a-st-s">Sual 1/5</div>
+      <div class="prog-wrap"><div class="prog-fill" id="a-prog"></div></div>
+      <div class="st-q" id="a-st-q"></div>
+      <div class="st-opts" id="a-opts"></div>
+      <button class="st-next" id="a-nx">Növbəti →</button>
+      <div class="app-bnav">
+        <div class="bnav-i" onclick="appGoto('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i on"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appGoto('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appGoto('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div>
+      </div>
+    </div>
+
+    <!-- PSYCHOLOGISTS SCREEN -->
+    <div class="scr scr-psy" id="a-psy">
+      <div class="sp-head">
+        <div class="sp-title">Psixoloqlar</div>
+        <div class="sp-filt">Filtr ⚡</div>
+      </div>
+      <div class="sp-search">🔍 <span>Axtarın...</span></div>
+      <div class="psy-c">
+        <div class="psy-av" style="background:#EBF5FF">👩‍⚕️</div>
+        <div><div class="psy-name">Dr. Leyla Hüseynova</div><div class="psy-spec">Klinik psixoloq · 8 il</div><div class="psy-meta"><div class="psy-star">★ 4.9</div><div class="psy-price">40₼/sessiya</div></div></div>
+        <button class="psy-btn" onclick="openBooking('Dr. Leyla Hüseynova','40₼')">Bron et</button>
+      </div>
+      <div class="psy-c">
+        <div class="psy-av" style="background:#FFF3E0">👨‍⚕️</div>
+        <div><div class="psy-name">Rauf Əliyev</div><div class="psy-spec">Uşaq psixoloqu · 5 il</div><div class="psy-meta"><div class="psy-star">★ 4.8</div><div class="psy-price">35₼/sessiya</div></div></div>
+        <button class="psy-btn" onclick="openBooking('Rauf Əliyev','35₼')">Bron et</button>
+      </div>
+      <div class="psy-c">
+        <div class="psy-av" style="background:#E8F5E9">👩‍⚕️</div>
+        <div><div class="psy-name">Nigar Quliyeva</div><div class="psy-spec">Ailə terapevti · 12 il</div><div class="psy-meta"><div class="psy-star">★ 5.0</div><div class="psy-price">50₼/sessiya</div></div></div>
+        <button class="psy-btn" onclick="openBooking('Nigar Quliyeva','50₼')">Bron et</button>
+      </div>
+      <div class="app-bnav">
+        <div class="bnav-i" onclick="appGoto('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appStartTest()"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i on"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appGoto('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="scr scr-result" id="a-result">
+      <div class="st-back" onclick="appGoto('home')" style="margin-bottom:10px">← Ana səhifə</div>
+      <div class="st-title" style="margin-bottom:16px">🧠 Test Nəticəsi</div>
+      <div class="res-wrap">
+        <div class="res-score-ring" id="a-res-ring">
+          <div class="res-score-n" id="a-res-score">—</div>
+          <div class="res-score-l">xal</div>
+        </div>
+        <div class="res-level-badge" id="a-res-badge">Hesablanır...</div>
+      </div>
+      <div class="res-ai-card">
+        <div class="res-ai-title">🤖 AI Məsləhəti</div>
+        <div class="res-ai-text" id="a-res-ai-text">
+          <div class="res-ai-loading dot-pulse"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="res-actions">
+        <button class="res-btn-psy" onclick="appGoto('psy')">👨‍⚕️ Psixoloq tap</button>
+        <button class="res-btn-retry" onclick="appStartTest()">🔄 Testi yenidən keç</button>
+      </div>
+      <div class="app-bnav" style="background:rgba(244,247,251,0.96);border-color:rgba(0,0,0,0.07)">
+        <div class="bnav-i" onclick="appGoto('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb" style="color:rgba(7,25,46,0.3)">Ana səhifə</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i on"><div class="bnav-ic">🧠</div><div class="bnav-lb" style="color:var(--blue)">Test</div><div class="bnav-dot" style="display:block;background:var(--blue)"></div></div>
+        <div class="bnav-i" onclick="appGoto('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb" style="color:rgba(7,25,46,0.3)">Psixoloqlar</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appGoto('prof')"><div class="bnav-ic">👤</div><div class="bnav-lb" style="color:rgba(7,25,46,0.3)">Profil</div><div class="bnav-dot"></div></div>
+      </div>
+    </div>
+
+    <!-- PROFILE SCREEN -->
+    <div class="scr scr-prof" id="a-prof">
+      <div class="prof-header">
+        <div class="prof-av-big">A</div>
+        <div class="prof-name-big">Anar Məmmədov</div>
+        <div class="prof-email">anar@email.com</div>
+        <div class="prof-badge-row">
+          <div class="prof-badge">✓ Doğrulanmış</div>
+          <div class="prof-badge">🔒 Anonim rejim</div>
+        </div>
+      </div>
+      <div class="prof-section-title">Hesab</div>
+      <div class="prof-row">
+        <div class="prof-item" onclick="openModal('settings')">
+          <div class="prof-item-ic">⚙️</div>
+          <div class="prof-item-txt"><div class="prof-item-name">Parametrlər</div><div class="prof-item-sub">Bildiriş, məxfilik</div></div>
+          <div class="prof-item-arr">›</div>
+        </div>
+        <div class="prof-item" onclick="openModal('sessions')">
+          <div class="prof-item-ic">📅</div>
+          <div class="prof-item-txt"><div class="prof-item-name">Sessiyalarım</div><div class="prof-item-sub" id="a-prf-sess-s">0 bron edilmiş</div></div>
+          <div class="prof-item-arr">›</div>
+        </div>
+        <div class="prof-item" onclick="openModal('results')">
+          <div class="prof-item-ic">📊</div>
+          <div class="prof-item-txt"><div class="prof-item-name">Test Nəticələrim</div><div class="prof-item-sub" id="a-prf-res-s">Son test yoxdur</div></div>
+          <div class="prof-item-arr">›</div>
+        </div>
+      </div>
+      <button class="prof-logout" onclick="closeApp()">🚪 Çıxış</button>
+      <div class="app-bnav">
+        <div class="bnav-i" onclick="appGoto('home')"><div class="bnav-ic">🏠</div><div class="bnav-lb">Ana səhifə</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appStartTest()"><div class="bnav-ic">🧠</div><div class="bnav-lb">Test</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i" onclick="appGoto('psy')"><div class="bnav-ic">👨‍⚕️</div><div class="bnav-lb">Psixoloqlar</div><div class="bnav-dot"></div></div>
+        <div class="bnav-i on"><div class="bnav-ic">👤</div><div class="bnav-lb">Profil</div><div class="bnav-dot"></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- PWA INSTALL BANNER -->
 <div class="pwa-banner" id="pwa-banner">
@@ -1983,8 +2185,184 @@ self.addEventListener('fetch', e => {
 }
 
 
+/* ══════════════════════════════════════
+   APP OVERLAY ENGINE
+══════════════════════════════════════ */
+function openApp(screen) {
+  const overlay = document.getElementById('app-overlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  appGoto(screen || 'home');
+
+  // restore saved data
+  const bookings = JSON.parse(localStorage.getItem('aidly_bookings') || '[]');
+  if (bookings.length > 0) {
+    const el = document.getElementById('a-up-s');
+    if (el) el.textContent = bookings[0].name + ' · ' + bookings[0].time;
+    const s = document.getElementById('a-prf-sess-s');
+    if (s) s.textContent = bookings.length + ' bron edilmiş';
+  }
+  const lastTest = localStorage.getItem('aidly_last_test');
+  if (lastTest) {
+    try {
+      const t = JSON.parse(lastTest);
+      const el = document.getElementById('a-prf-res-s');
+      if (el) el.textContent = t.date + ' · ' + t.score + '%';
+    } catch {}
+  }
+  const savedMood = localStorage.getItem('aidly_mood');
+  if (savedMood) {
+    document.querySelectorAll('#a-home .mc-e').forEach(e => {
+      if (e.textContent === savedMood) e.classList.add('on');
+    });
+  }
+}
+
+function closeApp() {
+  document.getElementById('app-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function appGoto(name) {
+  ['home','test','psy','result','prof'].forEach(s => {
+    const el = document.getElementById('a-' + s);
+    if (el) el.classList.toggle('on', s === name);
+  });
+}
+
+/* ══ APP TEST ENGINE ══ */
+let aTestQ = 0, aTestAnswers = [];
+
+function appStartTest() {
+  aTestQ = 0; aTestAnswers = [];
+  appRenderQ();
+  appGoto('test');
+}
+
+function appRenderQ() {
+  const l = document.body.className === 'en' ? 'en' : 'az';
+  const qs = QUESTIONS[l];
+  if (aTestQ >= qs.length) { appFinishTest(); return; }
+  const q = qs[aTestQ];
+
+  document.getElementById('a-st-t').textContent = l === 'az' ? 'Stress Testi' : 'Stress Test';
+  document.getElementById('a-st-s').textContent = (l === 'az' ? 'Sual ' : 'Question ') + (aTestQ + 1) + '/' + qs.length;
+  document.getElementById('a-st-q').textContent = q.q;
+  document.getElementById('a-prog').style.width = ((aTestQ / qs.length) * 100) + '%';
+
+  const optsEl = document.getElementById('a-opts');
+  optsEl.innerHTML = q.opts.map(opt =>
+    `<button class="st-o" onclick="aPickOpt(this)">${opt}</button>`
+  ).join('');
+
+  document.getElementById('a-nx').onclick = () => {
+    const sel = optsEl.querySelector('.st-o.on');
+    if (!sel) { showToast(l === 'az' ? 'Zəhmət olmasa cavab seçin' : 'Please select an answer'); return; }
+    const val = q.opts.indexOf(sel.textContent);
+    aTestAnswers.push(val >= 0 ? val : 0);
+    aTestQ++;
+    appRenderQ();
+  };
+}
+
+function aPickOpt(el) {
+  el.closest('#a-opts').querySelectorAll('.st-o').forEach(o => o.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function appFinishTest() {
+  const total = aTestAnswers.reduce((a, b) => a + b, 0);
+  const max = aTestAnswers.length * 3;
+  const pct = Math.round((total / max) * 100);
+  const l = document.body.className === 'en' ? 'en' : 'az';
+
+  let level, badgeClass, ringClass;
+  if (pct < 35) {
+    level = l === 'az' ? '😊 Yaxşı Vəziyyət' : '😊 Good State';
+    badgeClass = 'badge-ok'; ringClass = '';
+  } else if (pct < 65) {
+    level = l === 'az' ? '⚠️ Orta Narahatlıq' : '⚠️ Moderate Anxiety';
+    badgeClass = 'badge-warn'; ringClass = 'warn';
+  } else {
+    level = l === 'az' ? '🔴 Yüksək Stress' : '🔴 High Stress';
+    badgeClass = 'badge-bad'; ringClass = 'danger';
+  }
+
+  document.getElementById('a-res-score').textContent = pct;
+  const ring = document.getElementById('a-res-ring');
+  ring.className = 'res-score-ring ' + ringClass;
+  const badge = document.getElementById('a-res-badge');
+  badge.textContent = level;
+  badge.className = 'res-level-badge ' + badgeClass;
+
+  localStorage.setItem('aidly_last_test', JSON.stringify({ score: pct, level, date: new Date().toLocaleDateString() }));
+
+  const resEl = document.getElementById('a-prf-res-s');
+  if (resEl) resEl.textContent = new Date().toLocaleDateString() + ' · ' + pct + '%';
+
+  appGoto('result');
+  appGetAI(pct, l);
+}
+
+async function appGetAI(score, lang) {
+  const aiEl = document.getElementById('a-res-ai-text');
+  aiEl.innerHTML = '<div class="res-ai-loading dot-pulse"><span></span><span></span><span></span></div>';
+
+  let text = null;
+  try {
+    const res = await fetch('/api/advice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ score, lang })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      text = data.advice || null;
+    }
+  } catch { text = null; }
+
+  if (!text) {
+    const fb = {
+      az: {
+        low:  'Test nəticəniz yaxşı vəziyyəti göstərir. Mövcud müsbət vərdişlərinizi qoruyun — düzenli yuxu, hərəkət və sevdiklərinizlə vaxt. Özünüzə diqqət yetirmək güclü insanların xüsusiyyətidir.',
+        mid:  'Orta səviyyəli narahatlıq işarələri var. Günün sonunda 5 dəqiqə nəfəs məşqi sınayın, yükü azaldın. Lazım olsa, mütəxəssisə müraciət etməkdən çəkinməyin — bu zəiflik deyil, müdriklikdir.',
+        high: 'Yüksək stress səviyyəsi aşkarlandı. Bu normal bir insan reaksiyasıdır, özünüzü günahlandırmayın. Bu gün bir mütəxəssislə danışın — kiçik bir addım böyük fərq yaradır. Siz tək deyilsiniz.'
+      },
+      en: {
+        low:  'Your results indicate a good state of wellbeing. Keep protecting the positive habits you already have — regular sleep, movement, and time with people you care about.',
+        mid:  'Some moderate signs of stress are present. Try a 5-minute breathing exercise at the end of each day. If needed, don\'t hesitate to speak to a professional — that\'s wisdom, not weakness.',
+        high: 'High stress levels were detected. This is a normal human reaction — please don\'t blame yourself. Speak with a professional today — one small step can make a big difference. You are not alone.'
+      }
+    };
+    const lvl = score < 35 ? 'low' : score < 65 ? 'mid' : 'high';
+    text = fb[lang][lvl];
+  }
+
+  aiEl.textContent = '';
+  let i = 0;
+  const tick = () => { if (i < text.length) { aiEl.textContent += text[i++]; setTimeout(tick, 18); } };
+  tick();
+}
+
+/* ══ BOOKING in overlay - update up-s ══ */
+const _confirmBook = confirmBook;
+function confirmBook(name, price) {
+  _confirmBook(name, price);
+  // also update overlay's upcoming session
+  const el = document.getElementById('a-up-s');
+  if (el) {
+    const slot = document.querySelector('.book-slot.on');
+    if (slot) el.textContent = name + ' · ' + slot.textContent;
+  }
+  const bookings = JSON.parse(localStorage.getItem('aidly_bookings') || '[]');
+  const s = document.getElementById('a-prf-sess-s');
+  if (s) s.textContent = bookings.length + ' bron edilmiş';
+}
+
 /* ══ HAMBURGER ══ */
 function toggleMenu() { document.getElementById('mob-menu').classList.toggle('open'); }
+
+/* ══ OPEN APP SHORTCUT ══ */
 
 /* ══ SCROLL REVEAL ══ */
 const obs = new IntersectionObserver((entries) => {
