@@ -1,10 +1,9 @@
 // ═══════════════════════════════════════════
 //  Aidly — Netlify Function: /api/advice
-//  Claude API proxy — API key server tərəfdə
+//  Google Gemini API proxy — PULSUZ
 // ═══════════════════════════════════════════
 
 exports.handler = async (event) => {
-  // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -12,7 +11,6 @@ exports.handler = async (event) => {
     'Content-Type': 'application/json',
   };
 
-  // Preflight
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers, body: '' };
   }
@@ -28,12 +26,12 @@ exports.handler = async (event) => {
     lang  = body.lang === 'en' ? 'en' : 'az';
     if (isNaN(score) || score < 0 || score > 100) throw new Error('Invalid score');
   } catch (e) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'score (0-100) and lang (az/en) required' }) };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'score və lang lazımdır' }) };
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'API key not configured' }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'API key konfiqurasiya edilməyib' }) };
   }
 
   const prompt = lang === 'az'
@@ -41,28 +39,26 @@ exports.handler = async (event) => {
     : `You are the Aidly app's psychological advice system. The user completed a stress test. Score: ${score}/100. Give brief, compassionate, practical advice in English (3-4 sentences). Use simple, non-clinical language.`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 300,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    });
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 300, temperature: 0.7 }
+        }),
+      }
+    );
 
     if (!res.ok) {
       const err = await res.text();
-      console.error('Anthropic error:', err);
-      return { statusCode: 502, headers, body: JSON.stringify({ error: 'Upstream API error' }) };
+      console.error('Gemini error:', err);
+      return { statusCode: 502, headers, body: JSON.stringify({ error: 'AI xətası' }) };
     }
 
     const data = await res.json();
-    const text = data.content?.[0]?.text || '';
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
     return {
       statusCode: 200,
@@ -71,6 +67,6 @@ exports.handler = async (event) => {
     };
   } catch (e) {
     console.error('Function error:', e);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Internal error' }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server xətası' }) };
   }
 };
